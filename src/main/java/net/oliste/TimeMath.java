@@ -1,5 +1,6 @@
 package net.oliste;
 
+import java.time.ZoneId;
 import java.time.ZonedDateTime;
 
 public class TimeMath {
@@ -24,5 +25,13 @@ public class TimeMath {
       return date2;
     }
     return date1;
+  }
+
+  public static boolean isBeforeOrEquals(ZonedDateTime dateTimeA, ZonedDateTime dateTimeB) {
+    return dateTimeA.isBefore(dateTimeB) || dateTimeA.isEqual(dateTimeB);
+  }
+
+  public static boolean isAfterOrEquals(ZonedDateTime dateTimeA, ZonedDateTime dateTimeB) {
+    return dateTimeA.isAfter(dateTimeB) || dateTimeA.isEqual(dateTimeB);
   }
 }
