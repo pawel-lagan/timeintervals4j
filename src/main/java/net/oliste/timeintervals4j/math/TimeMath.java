@@ -1,4 +1,4 @@
-package net.oliste;
+package net.oliste.timeintervals4j.math;
 
 import java.time.ZoneId;
 import java.time.ZonedDateTime;

@@ -1,4 +1,4 @@
-package net.oliste;
+package net.oliste.timeintervals4j.interval;
 
 import java.time.ZonedDateTime;
 import java.util.List;
@@ -9,6 +9,7 @@ import lombok.Getter;
 import lombok.NonNull;
 import lombok.RequiredArgsConstructor;
 import lombok.ToString;
+import net.oliste.timeintervals4j.math.TimeMath;
 
 @Getter
 @RequiredArgsConstructor(staticName = "of")

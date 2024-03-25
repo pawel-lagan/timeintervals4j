@@ -1,7 +1,8 @@
-package net.oliste;
+package net.oliste.timeintervals4j.interval;
 
 import java.time.ZonedDateTime;
 import lombok.NonNull;
+import net.oliste.timeintervals4j.math.TimeMath;
 
 public interface TimeInterval<S extends TimeInterval<S, T>, T> {
   ZonedDateTime getFrom();

@@ -1,9 +1,7 @@
-package net.oliste;
+package net.oliste.timeintervals4j.interval;
 
 import static org.assertj.core.api.Assertions.assertThat;
-import static org.junit.jupiter.api.Assertions.*;
 
-import java.time.LocalDateTime;
 import org.junit.jupiter.api.Test;
 
 class TimeIntervalTest {
@@ -18,6 +16,12 @@ class TimeIntervalTest {
 
     interval = SingleTimeInterval.of(fixture.getNowUtc(), fixture.getNowUtc(), props);
     assertThat(interval.hasNoFrom()).isFalse();
+
+    interval = SingleTimeInterval.of(null, fixture.getNowUtc(), props);
+    assertThat(interval.hasFrom()).isFalse();
+
+    interval = SingleTimeInterval.of(fixture.getNowUtc(), fixture.getNowUtc(), props);
+    assertThat(interval.hasFrom()).isTrue();
   }
 
   @Test
@@ -27,6 +31,12 @@ class TimeIntervalTest {
 
     interval = SingleTimeInterval.of(fixture.getNowUtc(), fixture.getNowUtc(), props);
     assertThat(interval.hasNoTo()).isFalse();
+
+    interval = SingleTimeInterval.of(fixture.getNowUtc(), null, props);
+    assertThat(interval.hasTo()).isFalse();
+
+    interval = SingleTimeInterval.of(fixture.getNowUtc(), fixture.getNowUtc(), props);
+    assertThat(interval.hasTo()).isTrue();
   }
 
   @Test
