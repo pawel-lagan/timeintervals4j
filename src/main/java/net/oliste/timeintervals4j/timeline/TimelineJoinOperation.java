@@ -2,14 +2,14 @@ package net.oliste.timeintervals4j.timeline;
 
 import net.oliste.timeintervals4j.interval.SingleTimeInterval;
 
-public interface TimelineJoinOperation<T, S extends SingleTimeInterval<T>> {
+public interface TimelineJoinOperation<T, S extends SingleTimeInterval<T>, V extends Timeline<T, S>> {
 
-  Timeline<T, S> merge(Timeline<T, S> timeline);
+  V merge(V timeline);
 
-  Timeline<T, S> intersection(Timeline<T, S> timeline);
+  V intersection(V timeline);
 
-  Timeline<T, S> diff(Timeline<T, S> timeline);
+  V diff(V timeline);
 
-  Timeline<T, S> alignTo(Timeline<T, S> timeline);
+  V alignTo(V timeline);
 
 }

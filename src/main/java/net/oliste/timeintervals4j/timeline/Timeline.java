@@ -1,7 +1,5 @@
 package net.oliste.timeintervals4j.timeline;
 
-import java.util.List;
-import java.util.Optional;
 import net.oliste.timeintervals4j.interval.SingleTimeInterval;
 
 interface Timeline<T, S extends SingleTimeInterval<T>> {
@@ -12,15 +10,9 @@ interface Timeline<T, S extends SingleTimeInterval<T>> {
 
   S getTail();
 
-  List<S> findOverlaping(S interval);
+  TimelineSearch<T, S> find();
 
-  Optional<S> findLeftNearest(S interval);
+ TimelineOperation<T, S> modify();
 
-  Optional<S> findRightNearest(S interval);
-
-  Optional<S> findLeft(S interval);
-
-  Optional<S> findRight(S interval);
-
-  List<S> getGaps(S interval);
+  TimelineJoinOperation<T, S> join();
 }
