@@ -4,6 +4,7 @@ import java.time.ZonedDateTime;
 import lombok.Builder;
 import lombok.EqualsAndHashCode;
 import lombok.Getter;
+import lombok.NonNull;
 import lombok.RequiredArgsConstructor;
 import lombok.ToString;
 
@@ -20,7 +21,7 @@ public class SingleTimeInterval<T> implements TimeInterval<SingleTimeInterval<T>
   private final T properties;
 
   @Override
-  public SingleTimeInterval<T> create(ZonedDateTime from, ZonedDateTime to, T properties) {
+  public SingleTimeInterval<T> create(@NonNull ZonedDateTime from, @NonNull ZonedDateTime to, T properties) {
     return SingleTimeInterval.of(from, to, properties);
   }
 

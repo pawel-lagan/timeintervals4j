@@ -13,7 +13,14 @@ public class ComplexTimelineOperation<T> implements TimelineOperation<T, SingleT
 
   @Override
   public void insert(SingleTimeInterval<T> interval) {
-
+    var overlappingIntervals = timeline.find().findOverlaping(interval);
+    if (overlappingIntervals.isEmpty()) {
+      timeline.getIntervals().add(interval);
+    }
+    else {
+      overlappingIntervals.stream().filter(existingInterval -> existingInterval.contains(interval.getFrom())).findFirst();
+      overlappingIntervals.stream().filter(existingInterval -> existingInterval.contains(interval.getTo())).findFirst();
+    }
   }
 
   @Override

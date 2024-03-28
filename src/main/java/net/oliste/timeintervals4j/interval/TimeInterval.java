@@ -26,48 +26,22 @@ public interface TimeInterval<S extends TimeInterval<S, T>, T> {
   }
 
   default boolean contains(@NonNull ZonedDateTime timestamp) {
-    return (hasNoFrom() || TimeMath.isBeforeOrEquals(getFrom(), timestamp)) &&
-        (hasNoTo() || TimeMath.isAfterOrEquals(getTo(), timestamp));
+    return TimeMath.isBeforeOrEquals(getFrom(), timestamp) && TimeMath.isAfter(getTo(), timestamp);
   }
 
   default boolean contains(@NonNull TimeInterval<S, ?> interval) {
-    if(hasNoFrom()) {
-      if(interval.hasNoTo()) {
-        return false;
-      }
-      return TimeMath.isBeforeOrEquals(interval.getTo(),getTo());
-    }
-    if(hasNoTo()) {
-      if(interval.hasNoFrom()) {
-        return false;
-      }
-      return TimeMath.isAfterOrEquals(interval.getFrom(),getFrom());
-    }
-
-    if(interval.hasNoFrom() || interval.hasNoTo()) {
-      return false;
-    }
-
     return TimeMath.isAfterOrEquals(interval.getFrom(),getFrom())
         && TimeMath.isBeforeOrEquals(interval.getTo(),getTo());
   }
 
   default boolean overlaps(@NonNull TimeInterval<S, ?> interval) {
-    if(hasNoFrom() && hasNoTo()) {
-      return true;
-    }
-    if(hasNoFrom()) {
-      return interval.hasNoFrom() || TimeMath.isBeforeOrEquals(interval.getFrom(),getTo());
-    }
-    if(hasNoTo()) {
-      return interval.hasNoTo() || TimeMath.isAfterOrEquals(interval.getTo(),getFrom());
-    }
-
-    return (TimeMath.isAfterOrEquals(interval.getFrom(),getFrom()) && TimeMath.isBeforeOrEquals(interval.getFrom(),getTo()))
-      || (TimeMath.isAfterOrEquals(interval.getTo(),getFrom()) && TimeMath.isBeforeOrEquals(interval.getTo(),getTo()));
+    return (TimeMath.isAfterOrEquals(interval.getFrom(), getFrom()) && TimeMath.isBefore(interval.getFrom(), getTo())) ||
+        (TimeMath.isAfter(interval.getTo(), getFrom()) && TimeMath.isBeforeOrEquals(interval.getTo(), getTo())) ||
+        (TimeMath.isAfterOrEquals(getFrom(), interval.getFrom()) && TimeMath.isBeforeOrEquals(getTo(), interval.getTo())) ||
+        (TimeMath.isAfterOrEquals(interval.getFrom(), getFrom()) && TimeMath.isBeforeOrEquals(interval.getTo(), getTo()));
   }
 
-  S create(ZonedDateTime form, ZonedDateTime to, T properties);
+  S create(@NonNull ZonedDateTime form, @NonNull ZonedDateTime to, T properties);
 
   S get();
 

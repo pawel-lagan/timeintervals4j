@@ -4,7 +4,7 @@ import java.util.List;
 import java.util.Optional;
 import net.oliste.timeintervals4j.interval.SingleTimeInterval;
 
-public interface TimelineSearch<T, S extends SingleTimeInterval<T>, V extends Timeline<T, S>> {
+public interface TimelineSearch<T, S extends SingleTimeInterval<T>, V extends Timeline<T, S, V>> {
   List<S> findOverlaping(S interval);
 
   Optional<S> findLeftNearest(S interval);

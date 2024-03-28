@@ -1,12 +1,13 @@
 package net.oliste.timeintervals4j.timeline;
 
+import java.util.List;
 import lombok.EqualsAndHashCode;
 import lombok.ToString;
 import net.oliste.timeintervals4j.interval.SingleTimeInterval;
 
 @ToString
 @EqualsAndHashCode
-public class ComplexTimeline<T> implements Timeline<T, SingleTimeInterval<T>> {
+public class ComplexTimeline<T> implements Timeline<T, SingleTimeInterval<T>, ComplexTimeline<T>> {
 
   @Override
   public boolean isContinuous() {
@@ -25,6 +26,11 @@ public class ComplexTimeline<T> implements Timeline<T, SingleTimeInterval<T>> {
 
   @Override
   public SingleTimeInterval<T> getTail() {
+    return null;
+  }
+
+  @Override
+  public List<SingleTimeInterval<T>> getIntervals() {
     return null;
   }
 

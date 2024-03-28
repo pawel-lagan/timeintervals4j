@@ -1,8 +1,9 @@
 package net.oliste.timeintervals4j.timeline;
 
+import java.util.List;
 import net.oliste.timeintervals4j.interval.SingleTimeInterval;
 
-interface Timeline<T, S extends SingleTimeInterval<T>> {
+interface Timeline<T, S extends SingleTimeInterval<T>, V extends Timeline<T, S, V>> {
   boolean isContinuous();
   boolean hasGaps();
 
@@ -10,9 +11,11 @@ interface Timeline<T, S extends SingleTimeInterval<T>> {
 
   S getTail();
 
-  TimelineSearch<T, S> find();
+  List<S> getIntervals();
 
- TimelineOperation<T, S> modify();
+  TimelineSearch<T, S, V> find();
 
-  TimelineJoinOperation<T, S> join();
+  TimelineOperation<T, S, V> modify();
+
+  TimelineJoinOperation<T, S, V> join();
 }

@@ -1,6 +1,9 @@
 package net.oliste.timeintervals4j.interval;
 
 import java.time.ZonedDateTime;
+import java.util.ArrayList;
+import java.util.Collections;
+import java.util.LinkedList;
 import java.util.List;
 import java.util.function.BinaryOperator;
 import java.util.function.UnaryOperator;
@@ -50,6 +53,28 @@ public class TimeIntervalOperation<T, S extends TimeInterval<S, T>> {
     ZonedDateTime iTo = TimeMath.max(a.getTo(), interval.getTo());
     validateTimeInterval(iFrom, iTo);
     return a.create(iFrom, iTo, mergeStrategy.apply(a.getProperties(), interval.getProperties()));
+  }
+
+  public List<S> diff(@NonNull TimeInterval<S, T> interval) {
+    if (!a.overlaps(interval)) {
+      throw new TimeIntervalException("Internals do not overlaps");
+    }
+
+    var list = new LinkedList<S>();
+
+    if (TimeMath.isBefore(a.getFrom(), interval.getFrom())) {
+      list.add(a.create(a.getFrom(), interval.getFrom(), a.getProperties()));
+    } else if (TimeMath.isAfter(a.getFrom(), interval.getFrom())) {
+      list.add(a.create(interval.getFrom(), a.getFrom(), a.getProperties()));
+    }
+
+    if (TimeMath.isBefore(interval.getTo(), a.getTo())) {
+      list.add(a.create(interval.getTo(), a.getTo(), splitStrategy.apply(a.getProperties())));
+    } else if (TimeMath.isAfter(a.getTo(), interval.getTo())) {
+      list.add(a.create(a.getTo(), interval.getTo(), splitStrategy.apply(a.getProperties())));
+    }
+
+    return list;
   }
 
   public List<S> split(@NonNull ZonedDateTime time) {

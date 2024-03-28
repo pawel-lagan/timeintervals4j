@@ -2,7 +2,7 @@ package net.oliste.timeintervals4j.timeline;
 
 import net.oliste.timeintervals4j.interval.SingleTimeInterval;
 
-public interface TimelineJoinOperation<T, S extends SingleTimeInterval<T>, V extends Timeline<T, S>> {
+public interface TimelineJoinOperation<T, S extends SingleTimeInterval<T>, V extends Timeline<T, S, V>> {
 
   V merge(V timeline);
 
