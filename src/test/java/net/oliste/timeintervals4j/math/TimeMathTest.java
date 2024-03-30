@@ -38,17 +38,61 @@ class TimeMathTest {
 
   @Test
   void isBefore() {
+    var pointA = fixture.createTimePoint(IntervalOffset._1);
+    var pointB = fixture.createTimePoint(IntervalOffset._2);
+
+    var result = TimeMath.isBefore(pointA, pointB);
+    assertThat(result).isTrue();
+
+    result = TimeMath.isBefore(pointA, pointA);
+    assertThat(result).isFalse();
+
+    result = TimeMath.isBefore(pointB, pointA);
+    assertThat(result).isFalse();
   }
 
   @Test
   void isAfter() {
+    var pointA = fixture.createTimePoint(IntervalOffset._2);
+    var pointB = fixture.createTimePoint(IntervalOffset._1);
+
+    var result = TimeMath.isAfter(pointA, pointB);
+    assertThat(result).isTrue();
+
+    result = TimeMath.isAfter(pointA, pointA);
+    assertThat(result).isFalse();
+
+    result = TimeMath.isAfter(pointB, pointA);
+    assertThat(result).isFalse();
   }
 
   @Test
   void isBeforeOrEquals() {
+    var pointA = fixture.createTimePoint(IntervalOffset._1);
+    var pointB = fixture.createTimePoint(IntervalOffset._2);
+
+    var result = TimeMath.isBefore(pointA, pointB);
+    assertThat(result).isTrue();
+
+    result = TimeMath.isBefore(pointA, pointA);
+    assertThat(result).isTrue();
+
+    result = TimeMath.isBefore(pointB, pointA);
+    assertThat(result).isFalse();
   }
 
   @Test
   void isAfterOrEquals() {
+    var pointA = fixture.createTimePoint(IntervalOffset._2);
+    var pointB = fixture.createTimePoint(IntervalOffset._1);
+
+    var result = TimeMath.isAfter(pointA, pointB);
+    assertThat(result).isTrue();
+
+    result = TimeMath.isAfter(pointA, pointA);
+    assertThat(result).isTrue();
+
+    result = TimeMath.isAfter(pointB, pointA);
+    assertThat(result).isFalse();
   }
 }

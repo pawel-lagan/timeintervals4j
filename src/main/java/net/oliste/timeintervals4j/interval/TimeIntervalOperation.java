@@ -64,14 +64,10 @@ public class TimeIntervalOperation<T, S extends TimeInterval<S, T>> {
 
     if (TimeMath.isBefore(a.getFrom(), interval.getFrom())) {
       list.add(a.create(a.getFrom(), interval.getFrom(), a.getProperties()));
-    } else if (TimeMath.isAfter(a.getFrom(), interval.getFrom())) {
-      list.add(a.create(interval.getFrom(), a.getFrom(), a.getProperties()));
     }
 
     if (TimeMath.isBefore(interval.getTo(), a.getTo())) {
       list.add(a.create(interval.getTo(), a.getTo(), splitStrategy.apply(a.getProperties())));
-    } else if (TimeMath.isAfter(a.getTo(), interval.getTo())) {
-      list.add(a.create(a.getTo(), interval.getTo(), splitStrategy.apply(a.getProperties())));
     }
 
     return list;
