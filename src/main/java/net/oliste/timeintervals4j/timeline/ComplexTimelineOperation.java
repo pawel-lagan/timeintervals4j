@@ -1,11 +1,13 @@
 package net.oliste.timeintervals4j.timeline;
 
 import java.time.ZonedDateTime;
+import java.util.stream.Collectors;
 import net.oliste.timeintervals4j.interval.SingleTimeInterval;
+import net.oliste.timeintervals4j.interval.TimeIntervalException;
 
 public class ComplexTimelineOperation<T> implements TimelineOperation<T, SingleTimeInterval<T>, ComplexTimeline<T>> {
 
-  private ComplexTimeline<T> timeline;
+  private final ComplexTimeline<T> timeline;
 
   public ComplexTimelineOperation(ComplexTimeline<T> timeline) {
     this.timeline = timeline;
@@ -18,14 +20,15 @@ public class ComplexTimelineOperation<T> implements TimelineOperation<T, SingleT
       timeline.getIntervals().add(interval);
     }
     else {
-      overlappingIntervals.stream().filter(existingInterval -> existingInterval.contains(interval.getFrom())).findFirst();
-      overlappingIntervals.stream().filter(existingInterval -> existingInterval.contains(interval.getTo())).findFirst();
+      throw new TimeIntervalException(String.format("Overlapping interval found [%s]", overlappingIntervals.stream().map(
+          SingleTimeInterval::toString).collect(
+          Collectors.joining(", "))));
     }
   }
 
   @Override
-  public void overwrite(SingleTimeInterval<T> interval) {
 
+  public void overwrite(SingleTimeInterval<T> interval) {
   }
 
   @Override

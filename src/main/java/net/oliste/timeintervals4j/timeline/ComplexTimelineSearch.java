@@ -2,11 +2,12 @@ package net.oliste.timeintervals4j.timeline;
 
 import java.util.List;
 import java.util.Optional;
+import java.util.stream.Collectors;
 import net.oliste.timeintervals4j.interval.SingleTimeInterval;
 
 public class ComplexTimelineSearch<T> implements TimelineSearch<T, SingleTimeInterval<T>, ComplexTimeline<T>> {
 
-  private ComplexTimeline<T> timeline;
+  private final ComplexTimeline<T> timeline;
 
   public ComplexTimelineSearch(ComplexTimeline<T> timeline) {
     this.timeline = timeline;
@@ -14,7 +15,7 @@ public class ComplexTimelineSearch<T> implements TimelineSearch<T, SingleTimeInt
 
   @Override
   public List<SingleTimeInterval<T>> findOverlaping(SingleTimeInterval<T> interval) {
-    return null;
+    return timeline.getIntervals().stream().filter(interval::overlaps).toList();
   }
 
   @Override

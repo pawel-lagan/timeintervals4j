@@ -1,6 +1,8 @@
 package net.oliste.timeintervals4j.timeline;
 
+import java.util.LinkedList;
 import java.util.List;
+import java.util.Optional;
 import lombok.EqualsAndHashCode;
 import lombok.ToString;
 import net.oliste.timeintervals4j.interval.SingleTimeInterval;
@@ -9,29 +11,21 @@ import net.oliste.timeintervals4j.interval.SingleTimeInterval;
 @EqualsAndHashCode
 public class ComplexTimeline<T> implements Timeline<T, SingleTimeInterval<T>, ComplexTimeline<T>> {
 
+  private final LinkedList<SingleTimeInterval<T>> intervals = new LinkedList<>();
+
   @Override
-  public boolean isContinuous() {
-    return false;
+  public Optional<SingleTimeInterval<T>> getHead() {
+    return intervals.size() > 0 ? Optional.of(intervals.getFirst()) : Optional.empty();
   }
 
   @Override
-  public boolean hasGaps() {
-    return false;
-  }
-
-  @Override
-  public SingleTimeInterval<T> getHead() {
-    return null;
-  }
-
-  @Override
-  public SingleTimeInterval<T> getTail() {
-    return null;
+  public Optional<SingleTimeInterval<T>> getTail() {
+    return intervals.size() > 0 ? Optional.of(intervals.getLast()) : Optional.empty();
   }
 
   @Override
   public List<SingleTimeInterval<T>> getIntervals() {
-    return null;
+    return intervals;
   }
 
   @Override

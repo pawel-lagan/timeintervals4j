@@ -1,15 +1,13 @@
 package net.oliste.timeintervals4j.timeline;
 
 import java.util.List;
+import java.util.Optional;
 import net.oliste.timeintervals4j.interval.SingleTimeInterval;
 
 interface Timeline<T, S extends SingleTimeInterval<T>, V extends Timeline<T, S, V>> {
-  boolean isContinuous();
-  boolean hasGaps();
+  Optional<S> getHead();
 
-  S getHead();
-
-  S getTail();
+  Optional<S> getTail();
 
   List<S> getIntervals();
 

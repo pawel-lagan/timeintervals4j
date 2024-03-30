@@ -4,7 +4,7 @@ import net.oliste.timeintervals4j.interval.SingleTimeInterval;
 
 public class ComplexTimelineJoinOperation<T> implements TimelineJoinOperation<T, SingleTimeInterval<T>, ComplexTimeline<T>> {
 
-  private ComplexTimeline<T> timeline;
+  private final ComplexTimeline<T> timeline;
 
   public ComplexTimelineJoinOperation(ComplexTimeline<T> timeline) {
     this.timeline = timeline;
