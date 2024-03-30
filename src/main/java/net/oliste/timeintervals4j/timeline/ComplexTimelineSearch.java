@@ -1,5 +1,6 @@
 package net.oliste.timeintervals4j.timeline;
 
+import java.time.ZonedDateTime;
 import java.util.List;
 import java.util.Optional;
 import java.util.stream.Collectors;
@@ -14,8 +15,18 @@ public class ComplexTimelineSearch<T> implements TimelineSearch<T, SingleTimeInt
   }
 
   @Override
-  public List<SingleTimeInterval<T>> findOverlaping(SingleTimeInterval<T> interval) {
+  public List<SingleTimeInterval<T>> findOverlapping(SingleTimeInterval<T> interval) {
     return timeline.getIntervals().stream().filter(interval::overlaps).toList();
+  }
+
+  @Override
+  public List<SingleTimeInterval<T>> findContaining(SingleTimeInterval<T> interval) {
+    return timeline.getIntervals().stream().filter(iv -> iv.contains(interval)).collect(Collectors.toList());
+  }
+
+  @Override
+  public Optional<SingleTimeInterval<T>> findContaining(ZonedDateTime timestamp) {
+    return timeline.getIntervals().stream().filter(iv -> iv.contains(timestamp)).findFirst();
   }
 
   @Override

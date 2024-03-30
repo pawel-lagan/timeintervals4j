@@ -1,7 +1,7 @@
 package net.oliste.timeintervals4j.timeline;
 
+import java.util.Collection;
 import java.util.LinkedList;
-import java.util.List;
 import java.util.Optional;
 import lombok.EqualsAndHashCode;
 import lombok.ToString;
@@ -15,17 +15,46 @@ public class ComplexTimeline<T> implements Timeline<T, SingleTimeInterval<T>, Co
 
   @Override
   public Optional<SingleTimeInterval<T>> getHead() {
-    return intervals.size() > 0 ? Optional.of(intervals.getFirst()) : Optional.empty();
+    return !intervals.isEmpty() ? Optional.of(intervals.getFirst()) : Optional.empty();
   }
 
   @Override
   public Optional<SingleTimeInterval<T>> getTail() {
-    return intervals.size() > 0 ? Optional.of(intervals.getLast()) : Optional.empty();
+    return !intervals.isEmpty() ? Optional.of(intervals.getLast()) : Optional.empty();
   }
 
   @Override
-  public List<SingleTimeInterval<T>> getIntervals() {
+  public LinkedList<SingleTimeInterval<T>> getIntervals() {
     return intervals;
+  }
+
+  void addInOrder(Collection<SingleTimeInterval<T>> intervals) {
+    intervals.forEach(this::addInOrder);
+  }
+
+  void addInOrder(SingleTimeInterval<T> interval) {
+    var it = intervals.listIterator();
+    if (intervals.isEmpty()) {
+      intervals.add(interval);
+      return;
+    }
+
+    if (intervals.getFirst().isAfter(interval)) {
+      it.add(interval);
+      return;
+    }
+
+    while(it.hasNext()) {
+      var iv = it.next();
+      if (iv.isBefore(interval)) {
+        it.add(interval);
+        break;
+      }
+    }
+  }
+
+  void removeInRange(SingleTimeInterval<T> interval) {
+    intervals.removeIf(interval::contains);
   }
 
   @Override

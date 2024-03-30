@@ -10,28 +10,21 @@ public interface TimeInterval<S extends TimeInterval<S, T>, T> {
 
   T getProperties();
 
-  default boolean hasNoFrom() {
-    return getFrom() == null;
-  }
-
-  default boolean hasFrom() {
-    return getFrom() != null;
-  }
-
-  default boolean hasNoTo() {
-    return getTo() == null;
-  }
-  default boolean hasTo() {
-    return getTo() != null;
-  }
-
   default boolean contains(@NonNull ZonedDateTime timestamp) {
     return TimeMath.isBeforeOrEquals(getFrom(), timestamp) && TimeMath.isAfter(getTo(), timestamp);
+  }
+
+  default boolean notContains(@NonNull ZonedDateTime timestamp) {
+    return !contains(timestamp);
   }
 
   default boolean contains(@NonNull TimeInterval<S, ?> interval) {
     return TimeMath.isAfterOrEquals(interval.getFrom(),getFrom())
         && TimeMath.isBeforeOrEquals(interval.getTo(),getTo());
+  }
+
+  default boolean notContains(@NonNull TimeInterval<S, ?> interval) {
+    return !contains(interval);
   }
 
   default boolean overlaps(@NonNull TimeInterval<S, ?> interval) {
@@ -49,5 +42,12 @@ public interface TimeInterval<S extends TimeInterval<S, T>, T> {
     return TimeIntervalOperation.of(get());
   }
 
+  default boolean isAfter(@NonNull TimeInterval<S, ?> interval) {
+    return TimeMath.isAfterOrEquals(getFrom(), interval.getTo());
+  }
+
+  default boolean isBefore(@NonNull TimeInterval<S, ?> interval) {
+    return TimeMath.isBeforeOrEquals(getTo(), interval.getFrom());
+  }
 
 }

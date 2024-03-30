@@ -81,4 +81,27 @@ class ComplexTimelineTest {
 
     assertThat(timeline.join()).isInstanceOf(TimelineJoinOperation.class);
   }
+
+  @Test
+  void addInOrderShouldAddElementAfterEachOther() {
+    var timeline = new ComplexTimeline<String>();
+
+    var intervalA = fixture.createInterval(IntervalOffset._2, IntervalOffset._4, "");
+    var intervalB = fixture.createInterval(IntervalOffset._5, IntervalOffset._7, "");
+
+    timeline.addInOrder(intervalA);
+    timeline.addInOrder(intervalB);
+
+    assertThat(timeline.getIntervals()).containsExactly(intervalA, intervalB);
+
+    var intervalC = fixture.createInterval(IntervalOffset._4, IntervalOffset._5, "");
+    timeline.addInOrder(intervalC);
+
+    assertThat(timeline.getIntervals()).containsExactly(intervalA, intervalC, intervalB);
+
+    var intervalD = fixture.createInterval(IntervalOffset._1, IntervalOffset._2, "");
+    timeline.addInOrder(intervalD);
+
+    assertThat(timeline.getIntervals()).containsExactly(intervalD, intervalA, intervalC, intervalB);
+  }
 }

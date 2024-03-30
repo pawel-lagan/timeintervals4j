@@ -15,9 +15,10 @@ public class ComplexTimelineOperation<T> implements TimelineOperation<T, SingleT
 
   @Override
   public void insert(SingleTimeInterval<T> interval) {
-    var overlappingIntervals = timeline.find().findOverlaping(interval);
+    var overlappingIntervals = timeline.find().findOverlapping(interval);
     if (overlappingIntervals.isEmpty()) {
-      timeline.getIntervals().add(interval);
+      timeline.getHead().filter(head -> head.isBefore(interval))
+          .ifPresentOrElse(head -> timeline.getIntervals().add(interval), () -> timeline.addInOrder(interval));
     }
     else {
       throw new TimeIntervalException(String.format("Overlapping interval found [%s]", overlappingIntervals.stream().map(
@@ -27,22 +28,30 @@ public class ComplexTimelineOperation<T> implements TimelineOperation<T, SingleT
   }
 
   @Override
-
   public void overwrite(SingleTimeInterval<T> interval) {
+    removeIn(interval);
+    insert(interval);
   }
 
   @Override
   public void remove(SingleTimeInterval<T> interval) {
-
+    timeline.removeInRange(interval);
   }
 
   @Override
   public void removeIn(SingleTimeInterval<T> interval) {
-
+    var overlappingIntervals = timeline.find().findOverlapping(interval);
+    overlappingIntervals.forEach(this::remove);
+    overlappingIntervals.stream().filter(interval::notContains)
+        .forEach(iv -> timeline.addInOrder(iv.combine().diff(interval)));
   }
 
   @Override
   public void divide(ZonedDateTime timestamp) {
-
+    var overlappingInterval = timeline.find().findContaining(timestamp);
+    overlappingInterval.ifPresent(iv -> {
+      timeline.removeInRange(iv);
+      timeline.addInOrder(iv.combine().split(timestamp));
+    });
   }
 }

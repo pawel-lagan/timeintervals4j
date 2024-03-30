@@ -347,16 +347,50 @@ class TimeIntervalTest {
 
   }
 
-
   @Test
-  void testContains() {
+  void intervalAShouldBeBeforeIntervalB() {
+    var intervalA = fixture.createInterval(IntervalOffset._2, IntervalOffset._4, props);
+    var intervalB = fixture.createInterval(IntervalOffset._4, IntervalOffset._5, props);
+
+    assertThat(intervalA.isBefore(intervalB)).isTrue();
+
+    intervalB = fixture.createInterval(IntervalOffset._5, IntervalOffset._6, props);
+    assertThat(intervalA.isBefore(intervalB)).isTrue();
   }
 
   @Test
-  void overlaps() {
+  void intervalAShouldNotBeBeforeIntervalB() {
+    var intervalA = fixture.createInterval(IntervalOffset._3, IntervalOffset._5, props);
+    var intervalB = fixture.createInterval(IntervalOffset._4, IntervalOffset._5, props);
+
+    assertThat(intervalA.isBefore(intervalB)).isFalse();
+
+    intervalB = fixture.createInterval(IntervalOffset._1, IntervalOffset._3, props);
+    assertThat(intervalA.isBefore(intervalB)).isFalse();
   }
 
   @Test
+  void intervalAShouldBeAfterIntervalB() {
+    var intervalA = fixture.createInterval(IntervalOffset._4, IntervalOffset._5, props);
+    var intervalB = fixture.createInterval(IntervalOffset._2, IntervalOffset._4, props);
+
+    assertThat(intervalA.isAfter(intervalB)).isTrue();
+
+    intervalB = fixture.createInterval(IntervalOffset._1, IntervalOffset._3, props);
+    assertThat(intervalA.isAfter(intervalB)).isTrue();
+  }
+
+  @Test
+  void intervalAShouldNotBeAfterIntervalB() {
+    var intervalA = fixture.createInterval(IntervalOffset._4, IntervalOffset._5, props);
+    var intervalB = fixture.createInterval(IntervalOffset._4, IntervalOffset._7, props);
+
+    assertThat(intervalA.isAfter(intervalB)).isFalse();
+
+    intervalB = fixture.createInterval(IntervalOffset._5, IntervalOffset._6, props);
+    assertThat(intervalA.isAfter(intervalB)).isFalse();
+  }
+    @Test
   void combine() {
   }
 
