@@ -104,4 +104,27 @@ class ComplexTimelineTest {
 
     assertThat(timeline.getIntervals()).containsExactly(intervalD, intervalA, intervalC, intervalB);
   }
+
+  @Test
+  void addInOrderShouldAddElementAfterEachOther2() {
+    var timeline = new ComplexTimeline<String>();
+
+    var intervalA = fixture.createInterval(IntervalOffset._6, IntervalOffset._7, "A");
+    var intervalB = fixture.createInterval(IntervalOffset._5, IntervalOffset._6, "B");
+
+    timeline.addInOrder(intervalA);
+    timeline.addInOrder(intervalB);
+
+    assertThat(timeline.getIntervals()).containsExactly(intervalB, intervalA);
+
+    var intervalC = fixture.createInterval(IntervalOffset._1, IntervalOffset._2, "C");
+    timeline.addInOrder(intervalC);
+
+    assertThat(timeline.getIntervals()).containsExactly(intervalC, intervalB, intervalA);
+
+    var intervalD = fixture.createInterval(IntervalOffset._3, IntervalOffset._4, "D");
+    timeline.addInOrder(intervalD);
+
+    assertThat(timeline.getIntervals()).containsExactly(intervalC, intervalD, intervalB, intervalA);
+  }
 }

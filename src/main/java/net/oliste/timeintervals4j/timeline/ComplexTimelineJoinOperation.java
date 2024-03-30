@@ -26,7 +26,7 @@ public class ComplexTimelineJoinOperation<T> implements TimelineJoinOperation<T,
   }
 
   @Override
-  public ComplexTimeline<T> alignTo(ComplexTimeline<T> timeline) {
+  public ComplexTimeline<T> alignIntervalsTo(ComplexTimeline<T> timeline) {
     return null;
   }
 }

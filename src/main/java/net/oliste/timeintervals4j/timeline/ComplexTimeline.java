@@ -44,13 +44,15 @@ public class ComplexTimeline<T> implements Timeline<T, SingleTimeInterval<T>, Co
       return;
     }
 
-    while(it.hasNext()) {
+    while (it.hasNext()) {
       var iv = it.next();
-      if (iv.isBefore(interval)) {
+      if (interval.isAfter(iv)) {
         it.add(interval);
-        break;
+        return;
       }
     }
+
+    it.add(interval);
   }
 
   void removeInRange(SingleTimeInterval<T> interval) {

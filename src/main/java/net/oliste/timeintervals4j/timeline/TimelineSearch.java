@@ -18,9 +18,4 @@ public interface TimelineSearch<T, S extends SingleTimeInterval<T>, V extends Ti
 
   Optional<S> findNearest(S interval);
 
-  Optional<S> findLeft(S interval);
-
-  Optional<S> findRight(S interval);
-
-  List<S> getGaps(S interval);
 }

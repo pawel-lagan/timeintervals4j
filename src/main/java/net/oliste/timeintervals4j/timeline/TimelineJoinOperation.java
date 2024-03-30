@@ -10,6 +10,6 @@ public interface TimelineJoinOperation<T, S extends SingleTimeInterval<T>, V ext
 
   V diff(V timeline);
 
-  V alignTo(V timeline);
+  V alignIntervalsTo(V timeline);
 
 }

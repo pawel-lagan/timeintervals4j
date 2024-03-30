@@ -125,7 +125,7 @@ class ComplexTimelineOperationTest {
   }
 
   @Test
-  void divide() {
+  void divideShouldSplitIntervalInTimeline() {
     var timeline = new ComplexTimeline<String>();
 
     var intervalA = fixture.createInterval(IntervalOffset._2, IntervalOffset._6, propsA);
