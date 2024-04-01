@@ -77,10 +77,17 @@ public class TimeIntervalOperation<T, S extends TimeInterval<S, T>> {
     if (!a.contains(time)) {
       throw new TimeIntervalException("time point not withing interval boundary");
     }
-    var left = a.create(a.getFrom(), time, a.getProperties());
-    var right = a.create(time, a.getTo(), splitStrategy.apply(a.getProperties()));
 
-    return List.of(left, right);
+    var list = new LinkedList<S>();
+    if(a.getFrom().isBefore(time)) {
+      list.add(a.create(a.getFrom(), time, a.getProperties()));
+    }
+
+    if(time.isBefore(a.getTo())) {
+      list.add(a.create(time, a.getTo(), splitStrategy.apply(a.getProperties())));
+    }
+
+    return list;
   }
 
   private static void validateTimeInterval(ZonedDateTime iFrom, ZonedDateTime iTo) {

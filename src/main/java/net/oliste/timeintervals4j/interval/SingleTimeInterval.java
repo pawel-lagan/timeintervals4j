@@ -26,6 +26,12 @@ public class SingleTimeInterval<T> implements TimeInterval<SingleTimeInterval<T>
   }
 
   @Override
+  public SingleTimeInterval<T> createCopy() {
+    return SingleTimeInterval.of(getFrom(), getTo(), getProperties());
+  }
+
+
+  @Override
   public SingleTimeInterval<T> get() {
     return this;
   }

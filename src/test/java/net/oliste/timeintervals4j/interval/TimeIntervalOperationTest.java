@@ -172,6 +172,16 @@ class TimeIntervalOperationTest {
   }
 
   @Test
+  void splitEdgeCases() {
+    var intervalA = fixture.createInterval(IntervalOffset._2, IntervalOffset._6, propsA);
+    var timestamp = fixture.createTimePoint(IntervalOffset._2);
+    var expectedL = fixture.createInterval(IntervalOffset._2, IntervalOffset._6, propsA);
+
+    var result = intervalA.combine().split(timestamp);
+    assertThat(result).containsOnly(expectedL);
+  }
+
+  @Test
   void splitNotPossible() {
     var intervalA = fixture.createInterval(IntervalOffset._2, IntervalOffset._6, propsA);
     var timestamp = fixture.createTimePoint(IntervalOffset._1);

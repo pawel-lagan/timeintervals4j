@@ -13,6 +13,13 @@ public class ComplexTimeline<T> implements Timeline<T, SingleTimeInterval<T>, Co
 
   private final LinkedList<SingleTimeInterval<T>> intervals = new LinkedList<>();
 
+  public ComplexTimeline() {
+  }
+
+  public ComplexTimeline(ComplexTimeline<T> src) {
+    src.getIntervals().forEach(iv -> intervals.add(iv.createCopy()));
+  }
+
   @Override
   public Optional<SingleTimeInterval<T>> getHead() {
     return !intervals.isEmpty() ? Optional.of(intervals.getFirst()) : Optional.empty();
@@ -34,20 +41,21 @@ public class ComplexTimeline<T> implements Timeline<T, SingleTimeInterval<T>, Co
 
   void addInOrder(SingleTimeInterval<T> interval) {
     var it = intervals.listIterator();
+
     if (intervals.isEmpty()) {
       intervals.add(interval);
       return;
     }
 
     if (intervals.getFirst().isAfter(interval)) {
-      it.add(interval);
+      intervals.addFirst(interval);
       return;
     }
 
     while (it.hasNext()) {
       var iv = it.next();
-      if (interval.isAfter(iv)) {
-        it.add(interval);
+      if (!interval.isAfter(iv)) {
+        intervals.add(it.previousIndex(), interval);
         return;
       }
     }

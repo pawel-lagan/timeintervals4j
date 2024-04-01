@@ -32,7 +32,7 @@ class TimeMathTest {
     var result = TimeMath.max(pointA, pointB);
     assertThat(result).isEqualTo(pointB);
 
-    result = TimeMath.min(pointB, pointA);
+    result = TimeMath.max(pointB, pointA);
     assertThat(result).isEqualTo(pointB);
   }
 
@@ -71,13 +71,13 @@ class TimeMathTest {
     var pointA = fixture.createTimePoint(IntervalOffset._1);
     var pointB = fixture.createTimePoint(IntervalOffset._2);
 
-    var result = TimeMath.isBefore(pointA, pointB);
+    var result = TimeMath.isBeforeOrEquals(pointA, pointB);
     assertThat(result).isTrue();
 
-    result = TimeMath.isBefore(pointA, pointA);
+    result = TimeMath.isBeforeOrEquals(pointA, pointA);
     assertThat(result).isTrue();
 
-    result = TimeMath.isBefore(pointB, pointA);
+    result = TimeMath.isBeforeOrEquals(pointB, pointA);
     assertThat(result).isFalse();
   }
 
@@ -86,13 +86,13 @@ class TimeMathTest {
     var pointA = fixture.createTimePoint(IntervalOffset._2);
     var pointB = fixture.createTimePoint(IntervalOffset._1);
 
-    var result = TimeMath.isAfter(pointA, pointB);
+    var result = TimeMath.isAfterOrEquals(pointA, pointB);
     assertThat(result).isTrue();
 
-    result = TimeMath.isAfter(pointA, pointA);
+    result = TimeMath.isAfterOrEquals(pointA, pointA);
     assertThat(result).isTrue();
 
-    result = TimeMath.isAfter(pointB, pointA);
+    result = TimeMath.isAfterOrEquals(pointB, pointA);
     assertThat(result).isFalse();
   }
 }

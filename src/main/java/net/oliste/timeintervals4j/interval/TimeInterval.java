@@ -34,6 +34,8 @@ public interface TimeInterval<S extends TimeInterval<S, T>, T> {
         (TimeMath.isAfterOrEquals(interval.getFrom(), getFrom()) && TimeMath.isBeforeOrEquals(interval.getTo(), getTo()));
   }
 
+  S createCopy();
+
   S create(@NonNull ZonedDateTime form, @NonNull ZonedDateTime to, T properties);
 
   S get();
