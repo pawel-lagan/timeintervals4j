@@ -29,6 +29,13 @@
       <id>github</id>
       <name>GitHub timeintervals4j Apache Maven Packages</name>
       <url>https://maven.pkg.github.com/pawel-lagan/timeintervals4j</url>
+      <releases>
+        <enabled>true</enabled>
+      </releases>
+      <snapshots>
+        <enabled>true</enabled>
+      </snapshots>
+      <layout>default</layout>
     </repository>
   </distributionManagement>
 
