@@ -4,7 +4,7 @@
 
   <groupId>net.oliste</groupId>
   <artifactId>timeintervals4j</artifactId>
-  <version>0.0.6</version>
+  <version>0.0.7-SNAPSHOT</version>
   <packaging>jar</packaging>
 
   <name>timeintervals4j</name>
