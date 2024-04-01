@@ -24,6 +24,14 @@
     <mockito.version>5.11.0</mockito.version>
   </properties>
 
+  <distributionManagement>
+    <repository>
+      <id>github</id>
+      <name>GitHub timeintervals4j Apache Maven Packages</name>
+      <url>https://maven.pkg.github.com/pawel-lagan/timeintervals4j</url>
+    </repository>
+  </distributionManagement>
+
   <dependencies>
     <dependency>
       <groupId>org.junit.jupiter</groupId>
@@ -75,4 +83,5 @@
       <version>1.15.0</version>
     </dependency>
   </dependencies>
+
 </project>
