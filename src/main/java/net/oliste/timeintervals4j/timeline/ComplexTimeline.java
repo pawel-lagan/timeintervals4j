@@ -13,8 +13,7 @@ public class ComplexTimeline<T> implements Timeline<T, SingleTimeInterval<T>, Co
 
   private final LinkedList<SingleTimeInterval<T>> intervals = new LinkedList<>();
 
-  public ComplexTimeline() {
-  }
+  public ComplexTimeline() {}
 
   public ComplexTimeline(ComplexTimeline<T> src) {
     src.getIntervals().forEach(iv -> intervals.add(iv.createCopy()));

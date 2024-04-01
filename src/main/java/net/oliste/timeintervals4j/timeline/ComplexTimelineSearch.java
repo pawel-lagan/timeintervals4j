@@ -5,7 +5,8 @@ import java.util.List;
 import java.util.Optional;
 import net.oliste.timeintervals4j.interval.SingleTimeInterval;
 
-public class ComplexTimelineSearch<T> implements TimelineSearch<T, SingleTimeInterval<T>, ComplexTimeline<T>> {
+public class ComplexTimelineSearch<T>
+    implements TimelineSearch<T, SingleTimeInterval<T>, ComplexTimeline<T>> {
 
   private final ComplexTimeline<T> timeline;
 
@@ -88,10 +89,11 @@ public class ComplexTimelineSearch<T> implements TimelineSearch<T, SingleTimeInt
     var left = optLeft.get();
     var right = optRight.get();
 
-    var distLeft = interval.getFrom().toInstant().toEpochMilli() - left.getTo().toInstant().toEpochMilli();
-    var distRight = right.getFrom().toInstant().toEpochMilli() - interval.getTo().toInstant().toEpochMilli();
+    var distLeft =
+        interval.getFrom().toInstant().toEpochMilli() - left.getTo().toInstant().toEpochMilli();
+    var distRight =
+        right.getFrom().toInstant().toEpochMilli() - interval.getTo().toInstant().toEpochMilli();
 
     return distLeft < distRight ? optLeft : optRight;
   }
-
 }

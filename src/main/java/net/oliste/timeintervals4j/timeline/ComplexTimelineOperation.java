@@ -6,9 +6,9 @@ import java.util.function.UnaryOperator;
 import java.util.stream.Collectors;
 import net.oliste.timeintervals4j.interval.SingleTimeInterval;
 import net.oliste.timeintervals4j.interval.TimeIntervalException;
-import net.oliste.timeintervals4j.interval.TimeIntervalOperation;
 
-public class ComplexTimelineOperation<T> implements TimelineOperation<T, SingleTimeInterval<T>, ComplexTimeline<T>> {
+public class ComplexTimelineOperation<T>
+    implements TimelineOperation<T, SingleTimeInterval<T>, ComplexTimeline<T>> {
 
   private final ComplexTimeline<T> timeline;
   private BinaryOperator<T> mergeStrategy = (propertiesA, propertiesB) -> propertiesA;
@@ -35,11 +35,13 @@ public class ComplexTimelineOperation<T> implements TimelineOperation<T, SingleT
     var overlappingIntervals = timeline.find().findOverlapping(interval);
     if (overlappingIntervals.isEmpty()) {
       timeline.addInOrder(interval);
-    }
-    else {
-      throw new TimeIntervalException(String.format("Overlapping interval found [%s]", overlappingIntervals.stream().map(
-          SingleTimeInterval::toString).collect(
-          Collectors.joining(", "))));
+    } else {
+      throw new TimeIntervalException(
+          String.format(
+              "Overlapping interval found [%s]",
+              overlappingIntervals.stream()
+                  .map(SingleTimeInterval::toString)
+                  .collect(Collectors.joining(", "))));
     }
   }
 
@@ -58,16 +60,18 @@ public class ComplexTimelineOperation<T> implements TimelineOperation<T, SingleT
   public void removeIn(SingleTimeInterval<T> interval) {
     var overlappingIntervals = timeline.find().findOverlapping(interval);
     overlappingIntervals.forEach(this::remove);
-    overlappingIntervals.stream().filter(interval::notContains)
+    overlappingIntervals.stream()
+        .filter(interval::notContains)
         .forEach(iv -> timeline.addInOrder(iv.combine().diff(interval)));
   }
 
   @Override
   public void divide(ZonedDateTime timestamp) {
     var overlappingInterval = timeline.find().findContaining(timestamp);
-    overlappingInterval.ifPresent(iv -> {
-      timeline.removeInRange(iv);
-      timeline.addInOrder(iv.combine().split(timestamp));
-    });
+    overlappingInterval.ifPresent(
+        iv -> {
+          timeline.removeInRange(iv);
+          timeline.addInOrder(iv.combine().split(timestamp));
+        });
   }
 }

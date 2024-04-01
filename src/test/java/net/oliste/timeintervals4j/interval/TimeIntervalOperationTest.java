@@ -14,12 +14,10 @@ class TimeIntervalOperationTest {
   private String propsB = "IntervalB";
 
   @Test
-  void withMergeStrategy() {
-  }
+  void withMergeStrategy() {}
 
   @Test
-  void withSplitStrategy() {
-  }
+  void withSplitStrategy() {}
 
   @Test
   void intersection() {
@@ -54,12 +52,12 @@ class TimeIntervalOperationTest {
     var intervalA = fixture.createInterval(IntervalOffset._3, IntervalOffset._5, propsA);
     var intervalB = fixture.createInterval(IntervalOffset._1, IntervalOffset._3, propsB);
 
-    assertThatThrownBy(() ->  intervalA.combine().intersection(intervalB))
+    assertThatThrownBy(() -> intervalA.combine().intersection(intervalB))
         .isInstanceOf(TimeIntervalException.class);
 
     var intervalC = fixture.createInterval(IntervalOffset._5, IntervalOffset._6, propsB);
 
-    assertThatThrownBy(() ->  intervalA.combine().intersection(intervalC))
+    assertThatThrownBy(() -> intervalA.combine().intersection(intervalC))
         .isInstanceOf(TimeIntervalException.class);
   }
 
@@ -96,12 +94,12 @@ class TimeIntervalOperationTest {
     var intervalA = fixture.createInterval(IntervalOffset._3, IntervalOffset._5, propsA);
     var intervalB = fixture.createInterval(IntervalOffset._1, IntervalOffset._3, propsB);
 
-    assertThatThrownBy(() ->  intervalA.combine().union(intervalB))
+    assertThatThrownBy(() -> intervalA.combine().union(intervalB))
         .isInstanceOf(TimeIntervalException.class);
 
     var intervalC = fixture.createInterval(IntervalOffset._5, IntervalOffset._6, propsB);
 
-    assertThatThrownBy(() ->  intervalA.combine().union(intervalC))
+    assertThatThrownBy(() -> intervalA.combine().union(intervalC))
         .isInstanceOf(TimeIntervalException.class);
   }
 

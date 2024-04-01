@@ -21,7 +21,8 @@ public class SingleTimeInterval<T> implements TimeInterval<SingleTimeInterval<T>
   private final T properties;
 
   @Override
-  public SingleTimeInterval<T> create(@NonNull ZonedDateTime from, @NonNull ZonedDateTime to, T properties) {
+  public SingleTimeInterval<T> create(
+      @NonNull ZonedDateTime from, @NonNull ZonedDateTime to, T properties) {
     return SingleTimeInterval.of(from, to, properties);
   }
 
@@ -30,12 +31,8 @@ public class SingleTimeInterval<T> implements TimeInterval<SingleTimeInterval<T>
     return SingleTimeInterval.of(getFrom(), getTo(), getProperties());
   }
 
-
   @Override
   public SingleTimeInterval<T> get() {
     return this;
   }
-
-
 }
-

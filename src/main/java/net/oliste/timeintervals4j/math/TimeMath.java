@@ -6,8 +6,10 @@ import java.time.ZonedDateTime;
 
 public class TimeMath {
 
-  public static final ZonedDateTime PAST_INFINITY = ZonedDateTime.of(LocalDateTime.MIN, ZoneId.of("UTC"));
-  public static final ZonedDateTime FUTURE_INFINITY = ZonedDateTime.of(LocalDateTime.MAX, ZoneId.of("UTC"));
+  public static final ZonedDateTime PAST_INFINITY =
+      ZonedDateTime.of(LocalDateTime.MIN, ZoneId.of("UTC"));
+  public static final ZonedDateTime FUTURE_INFINITY =
+      ZonedDateTime.of(LocalDateTime.MAX, ZoneId.of("UTC"));
 
   private TimeMath() {}
 

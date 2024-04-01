@@ -26,7 +26,6 @@ class ComplexTimelineSearchTest {
     var result = timeline.find().findOverlapping(searchInterval);
     assertThat(result).containsExactly(intervalA);
 
-
     searchInterval = fixture.createInterval(IntervalOffset._2, IntervalOffset._5, props);
 
     result = timeline.find().findOverlapping(searchInterval);
@@ -48,7 +47,6 @@ class ComplexTimelineSearchTest {
     var result = timeline.find().findContaining(searchInterval);
     assertThat(result).containsExactly(intervalA);
 
-
     searchInterval = fixture.createInterval(IntervalOffset._2, IntervalOffset._5, props);
 
     result = timeline.find().findContaining(searchInterval);
@@ -69,7 +67,6 @@ class ComplexTimelineSearchTest {
 
     var result = timeline.find().findContaining(timestamp);
     assertThat(result).isNotEmpty().contains(intervalA);
-
 
     timestamp = fixture.createTimePoint(IntervalOffset._5);
 
@@ -161,5 +158,4 @@ class ComplexTimelineSearchTest {
     var result = timeline.find().findNearest(intervalC);
     assertThat(result).isNotEmpty().contains(intervalA);
   }
-
 }

@@ -1,6 +1,5 @@
 package net.oliste.timeintervals4j.timeline;
 
-
 import static org.assertj.core.api.Assertions.assertThat;
 
 import net.oliste.timeintervals4j.interval.TimeIntervalFixture;
@@ -14,23 +13,22 @@ class ComplexTimelineJoinOperationTest {
   private final String propsA = "IntervalA";
   private final String propsB = "IntervalB";
 
-
   @Test
   void merge() {
     var timelineA = createTimelineA();
     var timelineB = createTimelineB();
 
-    var result = timelineA.join().withMergeStrategy((a,b) -> a + b).merge(timelineB);
+    var result = timelineA.join().withMergeStrategy((a, b) -> a + b).merge(timelineB);
 
     var expectedA = fixture.createInterval(IntervalOffset._1, IntervalOffset._2, propsB);
-    var expectedB = fixture.createInterval(IntervalOffset._2, IntervalOffset._3, propsA+propsB);
+    var expectedB = fixture.createInterval(IntervalOffset._2, IntervalOffset._3, propsA + propsB);
     var expectedC = fixture.createInterval(IntervalOffset._3, IntervalOffset._4, propsA);
     var expectedD = fixture.createInterval(IntervalOffset._4, IntervalOffset._5, propsB);
-    var expectedE = fixture.createInterval(IntervalOffset._5, IntervalOffset._7, propsA+propsB);
+    var expectedE = fixture.createInterval(IntervalOffset._5, IntervalOffset._7, propsA + propsB);
     var expectedF = fixture.createRightOpenedInterval(IntervalOffset._7, propsB);
 
-
-    assertThat(result.getIntervals()).containsExactly(expectedA, expectedB, expectedC, expectedD, expectedE, expectedF);
+    assertThat(result.getIntervals())
+        .containsExactly(expectedA, expectedB, expectedC, expectedD, expectedE, expectedF);
   }
 
   private ComplexTimeline<String> createTimelineB() {
@@ -60,11 +58,10 @@ class ComplexTimelineJoinOperationTest {
     var timelineA = createTimelineA();
     var timelineB = createTimelineB();
 
-    var result = timelineA.join().withMergeStrategy((a,b) -> a + b).intersection(timelineB);
+    var result = timelineA.join().withMergeStrategy((a, b) -> a + b).intersection(timelineB);
 
-    var expectedB = fixture.createInterval(IntervalOffset._2, IntervalOffset._3, propsA+propsB);
-    var expectedE = fixture.createInterval(IntervalOffset._5, IntervalOffset._7, propsA+propsB);
-
+    var expectedB = fixture.createInterval(IntervalOffset._2, IntervalOffset._3, propsA + propsB);
+    var expectedE = fixture.createInterval(IntervalOffset._5, IntervalOffset._7, propsA + propsB);
 
     assertThat(result.getIntervals()).containsExactly(expectedB, expectedE);
   }
@@ -74,17 +71,17 @@ class ComplexTimelineJoinOperationTest {
     var timelineA = createTimelineA();
     var timelineB = createTimelineB();
 
-    var result = timelineA.join().withMergeStrategy((a,b) -> a + b).diff(timelineB);
+    var result = timelineA.join().withMergeStrategy((a, b) -> a + b).diff(timelineB);
     var expectedC = fixture.createInterval(IntervalOffset._3, IntervalOffset._4, propsA);
 
     assertThat(result.getIntervals()).containsExactly(expectedC);
 
-    result = timelineB.join().withMergeStrategy((a,b) -> a + b).diff(timelineA);
+    result = timelineB.join().withMergeStrategy((a, b) -> a + b).diff(timelineA);
     var expectedA = fixture.createInterval(IntervalOffset._1, IntervalOffset._2, propsB);
     var expectedD = fixture.createInterval(IntervalOffset._4, IntervalOffset._5, propsB);
     var expectedF = fixture.createRightOpenedInterval(IntervalOffset._7, propsB);
 
-    assertThat(result.getIntervals()).containsExactly(expectedA,expectedD,expectedF);
+    assertThat(result.getIntervals()).containsExactly(expectedA, expectedD, expectedF);
   }
 
   @Test
@@ -92,7 +89,7 @@ class ComplexTimelineJoinOperationTest {
     var timelineA = createTimelineA();
     var timelineB = createTimelineB();
 
-    var result = timelineA.join().withMergeStrategy((a,b) -> a + b).alignIntervalsTo(timelineB);
+    var result = timelineA.join().withMergeStrategy((a, b) -> a + b).alignIntervalsTo(timelineB);
 
     var expectedB = fixture.createInterval(IntervalOffset._2, IntervalOffset._3, propsA);
     var expectedC = fixture.createInterval(IntervalOffset._3, IntervalOffset._4, propsA);

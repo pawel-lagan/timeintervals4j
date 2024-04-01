@@ -59,7 +59,6 @@ class TimeIntervalTest {
     assertThat(interval.contains(case5)).isFalse();
   }
 
-
   @Test
   void leftOpenedIntervalContainsLeftOpenedInterval() {
     var interval = fixture.createLeftOpenedInterval(IntervalOffset._2, props);
@@ -263,10 +262,10 @@ class TimeIntervalTest {
     var case2 = fixture.createInterval(IntervalOffset._2, IntervalOffset._3, props);
     assertThat(interval.overlaps(case2)).isFalse();
 
-    var case3 =  fixture.createRightOpenedInterval(IntervalOffset._2, props);
+    var case3 = fixture.createRightOpenedInterval(IntervalOffset._2, props);
     assertThat(interval.overlaps(case3)).isFalse();
 
-    var case4 =  fixture.createRightOpenedInterval(IntervalOffset._1, props);
+    var case4 = fixture.createRightOpenedInterval(IntervalOffset._1, props);
     assertThat(interval.overlaps(case4)).isTrue();
   }
 
@@ -323,7 +322,7 @@ class TimeIntervalTest {
 
   @Test
   void closedIntervalOverlapsClosedInterval() {
-    var interval = fixture.createInterval(IntervalOffset._2,IntervalOffset._6, props);
+    var interval = fixture.createInterval(IntervalOffset._2, IntervalOffset._6, props);
 
     var case1 = fixture.createInterval(IntervalOffset._3, IntervalOffset._5, props);
     assertThat(interval.overlaps(case1)).isTrue();
@@ -337,14 +336,13 @@ class TimeIntervalTest {
     var case4 = fixture.createInterval(IntervalOffset._1, IntervalOffset._7, props);
     assertThat(interval.overlaps(case4)).isTrue();
 
-    interval = fixture.createInterval(IntervalOffset._3,IntervalOffset._5, props);
+    interval = fixture.createInterval(IntervalOffset._3, IntervalOffset._5, props);
 
     var case5 = fixture.createInterval(IntervalOffset._1, IntervalOffset._2, props);
     assertThat(interval.overlaps(case5)).isFalse();
 
     var case6 = fixture.createInterval(IntervalOffset._6, IntervalOffset._7, props);
     assertThat(interval.overlaps(case6)).isFalse();
-
   }
 
   @Test
@@ -390,8 +388,7 @@ class TimeIntervalTest {
     intervalB = fixture.createInterval(IntervalOffset._5, IntervalOffset._6, props);
     assertThat(intervalA.isAfter(intervalB)).isFalse();
   }
-    @Test
-  void combine() {
-  }
 
+  @Test
+  void combine() {}
 }

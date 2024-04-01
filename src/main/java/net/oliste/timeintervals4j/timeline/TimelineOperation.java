@@ -8,6 +8,7 @@ import net.oliste.timeintervals4j.interval.SingleTimeInterval;
 interface TimelineOperation<T, S extends SingleTimeInterval<T>, V extends Timeline<T, S, V>> {
 
   TimelineOperation<T, S, V> withMergeStrategy(BinaryOperator<T> strategy);
+
   TimelineOperation<T, S, V> withSplitStrategy(UnaryOperator<T> strategy);
 
   void insert(S interval);
@@ -19,5 +20,4 @@ interface TimelineOperation<T, S extends SingleTimeInterval<T>, V extends Timeli
   void removeIn(S interval);
 
   void divide(ZonedDateTime timestamp);
-
 }

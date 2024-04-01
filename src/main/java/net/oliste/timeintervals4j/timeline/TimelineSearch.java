@@ -17,5 +17,4 @@ public interface TimelineSearch<T, S extends SingleTimeInterval<T>, V extends Ti
   Optional<S> findRightNearest(S interval);
 
   Optional<S> findNearest(S interval);
-
 }

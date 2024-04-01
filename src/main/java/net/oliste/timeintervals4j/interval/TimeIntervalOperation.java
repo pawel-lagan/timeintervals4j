@@ -1,8 +1,6 @@
 package net.oliste.timeintervals4j.interval;
 
 import java.time.ZonedDateTime;
-import java.util.ArrayList;
-import java.util.Collections;
 import java.util.LinkedList;
 import java.util.List;
 import java.util.function.BinaryOperator;
@@ -44,6 +42,7 @@ public class TimeIntervalOperation<T, S extends TimeInterval<S, T>> {
     validateTimeInterval(iFrom, iTo);
     return a.create(iFrom, iTo, mergeStrategy.apply(a.getProperties(), interval.getProperties()));
   }
+
   public S union(@NonNull TimeInterval<S, T> interval) {
     if (!a.overlaps(interval)) {
       throw new TimeIntervalException("Internals do not overlaps");
@@ -79,11 +78,11 @@ public class TimeIntervalOperation<T, S extends TimeInterval<S, T>> {
     }
 
     var list = new LinkedList<S>();
-    if(a.getFrom().isBefore(time)) {
+    if (a.getFrom().isBefore(time)) {
       list.add(a.create(a.getFrom(), time, a.getProperties()));
     }
 
-    if(time.isBefore(a.getTo())) {
+    if (time.isBefore(a.getTo())) {
       list.add(a.create(time, a.getTo(), splitStrategy.apply(a.getProperties())));
     }
 
@@ -96,4 +95,3 @@ public class TimeIntervalOperation<T, S extends TimeInterval<S, T>> {
     }
   }
 }
-

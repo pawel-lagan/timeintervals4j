@@ -146,9 +146,7 @@ class ComplexTimelineTest {
     timeline.addInOrder(expectedE);
     timeline.addInOrder(expectedC);
 
-    assertThat(timeline.getIntervals()).containsExactly(expectedA, expectedB, expectedC, expectedD, expectedE, expectedF);
+    assertThat(timeline.getIntervals())
+        .containsExactly(expectedA, expectedB, expectedC, expectedD, expectedE, expectedF);
   }
-
-
-
 }

@@ -51,7 +51,11 @@ class ComplexTimelineOperationTest {
     var timeline = new ComplexTimeline<String>();
 
     timeline.modify().insert(fixture.createInterval(IntervalOffset._2, IntervalOffset._6, propsA));
-    assertThatThrownBy(() -> timeline.modify().insert(fixture.createInterval(IntervalOffset._1, IntervalOffset._7, propsA)))
+    assertThatThrownBy(
+            () ->
+                timeline
+                    .modify()
+                    .insert(fixture.createInterval(IntervalOffset._1, IntervalOffset._7, propsA)))
         .isInstanceOf(TimeIntervalException.class);
   }
 
@@ -95,7 +99,6 @@ class ComplexTimelineOperationTest {
     timeline.modify().insert(intervalB);
     timeline.modify().insert(intervalC);
 
-
     var toRemove = fixture.createInterval(IntervalOffset._3, IntervalOffset._5, propsA);
 
     timeline.modify().remove(toRemove);
@@ -114,7 +117,6 @@ class ComplexTimelineOperationTest {
     timeline.modify().insert(intervalA);
     timeline.modify().insert(intervalB);
     timeline.modify().insert(intervalC);
-
 
     var toRemove = fixture.createInterval(IntervalOffset._3, IntervalOffset._5, propsA);
 
