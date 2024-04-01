@@ -4,7 +4,7 @@
 
   <groupId>net.oliste</groupId>
   <artifactId>timeintervals4j</artifactId>
-  <version>1.0-SNAPSHOT</version>
+  <version>0.0.5</version>
   <packaging>jar</packaging>
 
   <name>timeintervals4j</name>
@@ -118,6 +118,16 @@
             </goals>
           </execution>
         </executions>
+      </plugin>
+      <plugin>
+        <groupId>com.amashchenko.maven.plugin</groupId>
+        <artifactId>gitflow-maven-plugin</artifactId>
+        <version>1.21.0</version>
+        <configuration>
+          <gitFlowConfig>
+            <developmentBranch>master</developmentBranch>
+          </gitFlowConfig>
+        </configuration>
       </plugin>
     </plugins>
   </build>
