@@ -10,12 +10,12 @@
   <name>Timeintervals4j</name>
   <description>Library supporting complex time interval operations like merge, intersection, diff
     on single time interval and ordered collection of time intervals (timeline).</description>
-  <url>http://maven.apache.org</url>
+  <url>https://timeinterval4j.oliste.net/</url>
 
   <licenses>
     <license>
       <name>Apache License, Version 2.0</name>
-      <url>http://www.apache.org/licenses/LICENSE-2.0.txt</url>
+      <url>https://www.apache.org/licenses/LICENSE-2.0.txt</url>
       <distribution>repo</distribution>
     </license>
   </licenses>
@@ -26,7 +26,7 @@
       <name>Paweł Łagan</name>
       <email>pawel.lagan@gmail.com</email>
       <organization>Oliste Software</organization>
-      <organizationUrl>http://www.baltsoft.com/</organizationUrl>
+      <organizationUrl>https://timeinterval4j.oliste.net/</organizationUrl>
       <roles>
         <role>owner</role>
         <role>architect</role>
