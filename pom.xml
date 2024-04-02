@@ -7,8 +7,41 @@
   <version>0.0.7-SNAPSHOT</version>
   <packaging>jar</packaging>
 
-  <name>timeintervals4j</name>
+  <name>Timeintervals4j</name>
+  <description>Library supporting complex time interval operations like merge, intersection, diff
+    on single time interval and ordered collection of time intervals (timeline).</description>
   <url>http://maven.apache.org</url>
+
+  <licenses>
+    <license>
+      <name>Apache License, Version 2.0</name>
+      <url>http://www.apache.org/licenses/LICENSE-2.0.txt</url>
+      <distribution>repo</distribution>
+    </license>
+  </licenses>
+
+  <developers>
+    <developer>
+      <id>pawellagan</id>
+      <name>Paweł Łagan</name>
+      <email>pawel.lagan@gmail.com</email>
+      <organization>Oliste Software</organization>
+      <organizationUrl>http://www.baltsoft.com/</organizationUrl>
+      <roles>
+        <role>owner</role>
+        <role>architect</role>
+        <role>developer</role>
+      </roles>
+      <timezone>+2</timezone>
+    </developer>
+  </developers>
+
+  <scm>
+    <connection>scm:git:git://github.com/pawel-lagan/timeintervals4j.git</connection>
+    <developerConnection>scm:git:git://github.com/pawel-lagan/timeintervals4j.git</developerConnection>
+    <url>https://github.com/pawel-lagan/timeintervals4j</url>
+    <tag>HEAD</tag>
+  </scm>
 
   <properties>
     <project.build.sourceEncoding>UTF-8</project.build.sourceEncoding>
