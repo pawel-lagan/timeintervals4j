@@ -1,8 +1,9 @@
-package net.oliste.timeintervals4j.timeline;
+package net.oliste.timeintervals4j.timeline.complex;
 
 import java.util.function.BinaryOperator;
 import java.util.function.UnaryOperator;
 import net.oliste.timeintervals4j.interval.SingleTimeInterval;
+import net.oliste.timeintervals4j.timeline.TimelineJoinOperation;
 
 public class ComplexTimelineJoinOperation<T>
     implements TimelineJoinOperation<T, SingleTimeInterval<T>, ComplexTimeline<T>> {

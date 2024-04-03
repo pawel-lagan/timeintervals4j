@@ -1,4 +1,4 @@
-package net.oliste.timeintervals4j.timeline;
+package net.oliste.timeintervals4j.timeline.complex;
 
 import static org.assertj.core.api.Assertions.assertThat;
 

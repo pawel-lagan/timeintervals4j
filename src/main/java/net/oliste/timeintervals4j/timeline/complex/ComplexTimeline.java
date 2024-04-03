@@ -1,4 +1,4 @@
-package net.oliste.timeintervals4j.timeline;
+package net.oliste.timeintervals4j.timeline.complex;
 
 import java.util.Collection;
 import java.util.LinkedList;
@@ -6,6 +6,10 @@ import java.util.Optional;
 import lombok.EqualsAndHashCode;
 import lombok.ToString;
 import net.oliste.timeintervals4j.interval.SingleTimeInterval;
+import net.oliste.timeintervals4j.timeline.Timeline;
+import net.oliste.timeintervals4j.timeline.TimelineJoinOperation;
+import net.oliste.timeintervals4j.timeline.TimelineOperation;
+import net.oliste.timeintervals4j.timeline.TimelineSearch;
 
 @ToString
 @EqualsAndHashCode

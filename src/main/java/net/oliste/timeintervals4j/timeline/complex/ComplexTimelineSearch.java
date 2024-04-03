@@ -1,9 +1,10 @@
-package net.oliste.timeintervals4j.timeline;
+package net.oliste.timeintervals4j.timeline.complex;
 
 import java.time.ZonedDateTime;
 import java.util.List;
 import java.util.Optional;
 import net.oliste.timeintervals4j.interval.SingleTimeInterval;
+import net.oliste.timeintervals4j.timeline.TimelineSearch;
 
 public class ComplexTimelineSearch<T>
     implements TimelineSearch<T, SingleTimeInterval<T>, ComplexTimeline<T>> {
