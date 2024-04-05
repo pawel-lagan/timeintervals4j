@@ -30,7 +30,8 @@ public class Day<T> extends SingleTimeInterval<T> implements SequencedInterval<D
 
   private static ZonedDateTime getBeginningOfTheDay(ZonedDateTime dateTime) {
     var zoneId = dateTime.getZone();
-    var localDate = LocalDate.of(dateTime.getYear(), dateTime.getMonthValue(), dateTime.getDayOfMonth());
+    var localDate =
+        LocalDate.of(dateTime.getYear(), dateTime.getMonthValue(), dateTime.getDayOfMonth());
     return ZonedDateTime.of(localDate.atTime(0, 0), zoneId);
   }
 }

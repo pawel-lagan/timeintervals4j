@@ -10,7 +10,10 @@ import net.oliste.timeintervals4j.interval.SingleTimeInterval;
 public class Month<T> extends SingleTimeInterval<T> implements SequencedInterval<Month<T>> {
 
   Month(ZonedDateTime dateTime, T properties) {
-    super(getBeginningOfTheMonth(dateTime), getBeginningOfTheMonth(dateTime).plusMonths(1), properties);
+    super(
+        getBeginningOfTheMonth(dateTime),
+        getBeginningOfTheMonth(dateTime).plusMonths(1),
+        properties);
   }
 
   public static <S> Month<S> of(ZonedDateTime dateTime) {
@@ -34,8 +37,8 @@ public class Month<T> extends SingleTimeInterval<T> implements SequencedInterval
   public List<Day<T>> getDays() {
     var days = getFrom().getMonth().length(Year.isLeap(getFrom().getYear()));
     var list = new ArrayList<Day<T>>(days);
-    for(var i=1; i<=days; i++) {
-      list.add(new Day<>(getFrom().plusDays(i-1), getProperties()));
+    for (var i = 1; i <= days; i++) {
+      list.add(new Day<>(getFrom().plusDays(i - 1), getProperties()));
     }
     return list;
   }

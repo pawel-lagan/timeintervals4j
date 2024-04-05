@@ -3,8 +3,6 @@ package net.oliste.timeintervals4j.calendar;
 import static org.assertj.core.api.Assertions.assertThat;
 import static org.junit.jupiter.api.Assertions.*;
 
-import java.time.ZonedDateTime;
-import org.checkerframework.checker.units.qual.C;
 import org.junit.jupiter.api.Test;
 
 class DayTest {
@@ -12,6 +10,7 @@ class DayTest {
   private final CalendarFixture fixture = new CalendarFixture();
 
   private final String props = "props";
+
   @Test
   void of() {
     var result = Day.of(fixture.getNowUtc(), props);

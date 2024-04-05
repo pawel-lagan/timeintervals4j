@@ -9,7 +9,8 @@ import net.oliste.timeintervals4j.interval.SingleTimeInterval;
 public class Year<T> extends SingleTimeInterval<T> implements SequencedInterval<Year<T>> {
 
   Year(ZonedDateTime dateTime, T properties) {
-    super(getBeginningOfTheYear(dateTime), getBeginningOfTheYear(dateTime).plusYears(1), properties);
+    super(
+        getBeginningOfTheYear(dateTime), getBeginningOfTheYear(dateTime).plusYears(1), properties);
   }
 
   public static <S> Year<S> of(ZonedDateTime dateTime) {
@@ -33,8 +34,8 @@ public class Year<T> extends SingleTimeInterval<T> implements SequencedInterval<
   public List<Month<T>> getMonths() {
     var months = 12;
     var list = new ArrayList<Month<T>>(months);
-    for(var i=1; i<=months; i++) {
-      list.add(new Month<>(getFrom().plusMonths(i-1), getProperties()));
+    for (var i = 1; i <= months; i++) {
+      list.add(new Month<>(getFrom().plusMonths(i - 1), getProperties()));
     }
     return list;
   }

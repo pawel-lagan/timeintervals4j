@@ -18,4 +18,6 @@ public interface TimelineJoinOperation<
   V diff(V timeline);
 
   V alignIntervalsTo(V timeline);
+
+  V gaps();
 }

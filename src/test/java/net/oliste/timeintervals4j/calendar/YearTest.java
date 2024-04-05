@@ -9,6 +9,7 @@ class YearTest {
   private final CalendarFixture fixture = new CalendarFixture();
 
   private final String props = "props";
+
   @Test
   void of() {
     var result = Year.of(fixture.getNowUtc(), props);

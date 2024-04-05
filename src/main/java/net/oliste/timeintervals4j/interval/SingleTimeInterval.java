@@ -1,12 +1,10 @@
 package net.oliste.timeintervals4j.interval;
 
 import java.time.ZonedDateTime;
-import lombok.AccessLevel;
 import lombok.Builder;
 import lombok.EqualsAndHashCode;
 import lombok.Getter;
 import lombok.NonNull;
-import lombok.RequiredArgsConstructor;
 import lombok.ToString;
 
 @Getter

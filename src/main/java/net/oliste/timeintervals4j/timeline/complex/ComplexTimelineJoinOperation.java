@@ -145,4 +145,29 @@ public class ComplexTimelineJoinOperation<T>
 
     return result;
   }
+
+  @Override
+  public ComplexTimeline<T> gaps() {
+    var result = new ComplexTimeline<T>();
+
+    if (timeline.getIntervals().isEmpty()) {
+      return result;
+    }
+
+    var it = timeline.getIntervals().iterator();
+    var prev = it.next();
+    while (it.hasNext()) {
+      var current = it.next();
+      if (prev.getTo().isBefore(current.getFrom())) {
+        result.addInOrder(
+            SingleTimeInterval.of(
+                prev.getTo(),
+                current.getFrom(),
+                mergeStrategy.apply(prev.getProperties(), current.getProperties())));
+      }
+      prev = current;
+    }
+
+    return result;
+  }
 }

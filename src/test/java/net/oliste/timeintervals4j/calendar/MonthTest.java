@@ -2,8 +2,6 @@ package net.oliste.timeintervals4j.calendar;
 
 import static org.assertj.core.api.Assertions.assertThat;
 
-import java.util.stream.Collectors;
-import java.util.stream.IntStream;
 import org.junit.jupiter.api.Test;
 
 class MonthTest {
@@ -11,6 +9,7 @@ class MonthTest {
   private final CalendarFixture fixture = new CalendarFixture();
 
   private final String props = "props";
+
   @Test
   void of() {
     var result = Month.of(fixture.getNowUtc(), props);

@@ -39,7 +39,8 @@ public class ComplexTimelineOperation<T>
     } else {
       throw new TimeIntervalException(
           String.format(
-              "Overlapping interval found [%s]",
+              "Overlapping interval found for %s => [%s]",
+              interval,
               overlappingIntervals.stream()
                   .map(SingleTimeInterval::toString)
                   .collect(Collectors.joining(", "))));
