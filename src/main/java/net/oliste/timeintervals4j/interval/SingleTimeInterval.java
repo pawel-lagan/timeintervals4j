@@ -5,12 +5,10 @@ import lombok.Builder;
 import lombok.EqualsAndHashCode;
 import lombok.Getter;
 import lombok.NonNull;
-import lombok.RequiredArgsConstructor;
 import lombok.ToString;
 
 @Getter
 @Builder
-@RequiredArgsConstructor(staticName = "of")
 @ToString
 @EqualsAndHashCode
 public class SingleTimeInterval<T> implements TimeInterval<SingleTimeInterval<T>, T> {
@@ -19,6 +17,16 @@ public class SingleTimeInterval<T> implements TimeInterval<SingleTimeInterval<T>
   private final ZonedDateTime to;
 
   private final T properties;
+
+  public SingleTimeInterval(ZonedDateTime from, ZonedDateTime to, T properties) {
+    this.from = from;
+    this.to = to;
+    this.properties = properties;
+  }
+
+  public static <S> SingleTimeInterval<S> of(ZonedDateTime from, ZonedDateTime to, S properties) {
+    return new SingleTimeInterval<>(from, to, properties);
+  }
 
   @Override
   public SingleTimeInterval<T> create(

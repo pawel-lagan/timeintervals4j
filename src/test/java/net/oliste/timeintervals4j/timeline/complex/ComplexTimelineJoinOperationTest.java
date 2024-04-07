@@ -1,4 +1,4 @@
-package net.oliste.timeintervals4j.timeline;
+package net.oliste.timeintervals4j.timeline.complex;
 
 import static org.assertj.core.api.Assertions.assertThat;
 
@@ -96,5 +96,15 @@ class ComplexTimelineJoinOperationTest {
     var expectedE = fixture.createInterval(IntervalOffset._5, IntervalOffset._7, propsA);
 
     assertThat(result.getIntervals()).containsExactly(expectedB, expectedC, expectedE);
+  }
+
+  @Test
+  void gaps() {
+    var timelineA = createTimelineA();
+
+    var result = timelineA.join().withMergeStrategy((a, b) -> a + b).gaps();
+    var expectedC = fixture.createInterval(IntervalOffset._4, IntervalOffset._5, propsA + propsA);
+
+    assertThat(result.getIntervals()).containsExactly(expectedC);
   }
 }

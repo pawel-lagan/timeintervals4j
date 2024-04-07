@@ -1,11 +1,13 @@
-package net.oliste.timeintervals4j.timeline;
+package net.oliste.timeintervals4j.timeline.complex;
 
 import static org.assertj.core.api.Assertions.assertThat;
-import static org.junit.jupiter.api.Assertions.*;
 
 import net.oliste.timeintervals4j.interval.TimeIntervalFixture;
 import net.oliste.timeintervals4j.interval.TimeIntervalFixture.IntervalOffset;
 import net.oliste.timeintervals4j.interval.TimeIntervalFixture.IntervalSize;
+import net.oliste.timeintervals4j.timeline.TimelineJoinOperation;
+import net.oliste.timeintervals4j.timeline.TimelineOperation;
+import net.oliste.timeintervals4j.timeline.TimelineSearch;
 import org.junit.jupiter.api.Test;
 
 class ComplexTimelineTest {

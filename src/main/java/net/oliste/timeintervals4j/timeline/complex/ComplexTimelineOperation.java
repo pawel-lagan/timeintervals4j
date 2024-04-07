@@ -1,4 +1,4 @@
-package net.oliste.timeintervals4j.timeline;
+package net.oliste.timeintervals4j.timeline.complex;
 
 import java.time.ZonedDateTime;
 import java.util.function.BinaryOperator;
@@ -6,6 +6,7 @@ import java.util.function.UnaryOperator;
 import java.util.stream.Collectors;
 import net.oliste.timeintervals4j.interval.SingleTimeInterval;
 import net.oliste.timeintervals4j.interval.TimeIntervalException;
+import net.oliste.timeintervals4j.timeline.TimelineOperation;
 
 public class ComplexTimelineOperation<T>
     implements TimelineOperation<T, SingleTimeInterval<T>, ComplexTimeline<T>> {
@@ -38,7 +39,8 @@ public class ComplexTimelineOperation<T>
     } else {
       throw new TimeIntervalException(
           String.format(
-              "Overlapping interval found [%s]",
+              "Overlapping interval found for %s => [%s]",
+              interval,
               overlappingIntervals.stream()
                   .map(SingleTimeInterval::toString)
                   .collect(Collectors.joining(", "))));
