@@ -30,6 +30,13 @@ public class TimeIntervalFixture {
     return SingleTimeInterval.of(from, to, props);
   }
 
+  public <T> SingleTimeInterval<T> createInterval(int fromOffset, int toOffset, T props) {
+
+    var from = getNowUtc().plusMinutes((long) gridSize.getSizeMinutes() * fromOffset);
+    var to = getNowUtc().plusMinutes((long) gridSize.getSizeMinutes() * toOffset);
+    return SingleTimeInterval.of(from, to, props);
+  }
+
   public <T> SingleTimeInterval<T> createLeftOpenedInterval(IntervalOffset offsetTo, T props) {
     var to = getNowUtc().plusMinutes(offsetTo.getOffsetInMinutes(gridSize));
     return SingleTimeInterval.of(TimeMath.PAST_INFINITY, to, props);

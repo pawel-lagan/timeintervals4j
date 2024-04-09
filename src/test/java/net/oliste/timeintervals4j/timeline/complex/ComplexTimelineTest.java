@@ -16,38 +16,6 @@ class ComplexTimelineTest {
   private final String props = "props";
 
   @Test
-  void headShouldBeEmptyWhenNoIntervals() {
-    var timeline = new ComplexTimeline<String>();
-    assertThat(timeline.getHead()).isEmpty();
-  }
-
-  @Test
-  void headShouldReturnMostRecentInterval() {
-    var timeline = new ComplexTimeline<String>();
-    var intervalA = fixture.createInterval(IntervalOffset._1, IntervalOffset._2, props);
-    var intervalB = fixture.createInterval(IntervalOffset._1, IntervalOffset._2, props);
-    timeline.getIntervals().add(intervalA);
-    timeline.getIntervals().add(intervalB);
-    assertThat(timeline.getHead()).isNotEmpty().contains(intervalB);
-  }
-
-  @Test
-  void tailShouldBeEmptyWhenNoIntervals() {
-    var timeline = new ComplexTimeline<String>();
-    assertThat(timeline.getTail()).isEmpty();
-  }
-
-  @Test
-  void tailShouldReturnLatestInterval() {
-    var timeline = new ComplexTimeline<String>();
-    var intervalA = fixture.createInterval(IntervalOffset._1, IntervalOffset._2, props);
-    var intervalB = fixture.createInterval(IntervalOffset._1, IntervalOffset._2, props);
-    timeline.getIntervals().add(intervalA);
-    timeline.getIntervals().add(intervalB);
-    assertThat(timeline.getTail()).isNotEmpty().contains(intervalA);
-  }
-
-  @Test
   void timelineShouldBeEmptyAfterInitialization() {
     var timeline = new ComplexTimeline<String>();
     assertThat(timeline.getIntervals()).isEmpty();
@@ -57,9 +25,9 @@ class ComplexTimelineTest {
   void timelineIntervalsShouldReturnAllIntervalsInTheTimeline() {
     var timeline = new ComplexTimeline<String>();
     var intervalA = fixture.createInterval(IntervalOffset._1, IntervalOffset._2, props);
-    var intervalB = fixture.createInterval(IntervalOffset._1, IntervalOffset._2, props);
-    timeline.getIntervals().add(intervalA);
-    timeline.getIntervals().add(intervalB);
+    var intervalB = fixture.createInterval(IntervalOffset._2, IntervalOffset._3, props);
+    timeline.addInOrder(intervalA);
+    timeline.addInOrder(intervalB);
     assertThat(timeline.getIntervals()).containsExactly(intervalA, intervalB);
   }
 
@@ -150,5 +118,16 @@ class ComplexTimelineTest {
 
     assertThat(timeline.getIntervals())
         .containsExactly(expectedA, expectedB, expectedC, expectedD, expectedE, expectedF);
+  }
+
+  @Test
+  void allTimelineIntervalsShouldRemoved() {
+    var timeline = new ComplexTimeline<String>();
+    var intervalA = fixture.createInterval(IntervalOffset._1, IntervalOffset._2, props);
+    var intervalB = fixture.createInterval(IntervalOffset._2, IntervalOffset._3, props);
+    timeline.addInOrder(intervalA);
+    timeline.addInOrder(intervalB);
+    timeline.removeInRange(fixture.createInterval(IntervalOffset._1, IntervalOffset._3, ""));
+    assertThat(timeline.getIntervals()).isEmpty();
   }
 }
