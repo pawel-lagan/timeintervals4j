@@ -27,4 +27,29 @@ public class BTPTreeNode<T, S extends SingleTimeInterval<T>> {
   boolean isLeaf() {
     return left == null && right == null;
   }
+
+  public BTPTreeNode<T, S> uncle() {
+    if (parent == null) {
+      return null;
+    }
+
+    var grandparent = parent.getParent();
+    if (grandparent.getLeft() == parent) {
+      return grandparent.getRight();
+    } else if (grandparent.getRight() == parent) {
+      return grandparent.getLeft();
+    } else {
+      throw new IllegalStateException("Parent is not a child of its grandparent");
+    }
+  }
+
+  public BTPTreeNode<T, S> sibling() {
+    if (this == parent.getLeft()) {
+      return parent.getRight();
+    } else if (this == parent.getRight()) {
+      return parent.getLeft();
+    } else {
+      throw new IllegalStateException("Parent is not a child of its grandparent");
+    }
+  }
 }

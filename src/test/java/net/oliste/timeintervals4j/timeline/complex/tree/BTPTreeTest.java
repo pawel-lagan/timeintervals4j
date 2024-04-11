@@ -10,7 +10,6 @@ import net.oliste.timeintervals4j.timeline.complex.tree.BTPTreeNode.Color;
 import org.junit.jupiter.api.Test;
 
 class BTPTreeTest {
-
   private final TimeIntervalFixture fixture = new TimeIntervalFixture(IntervalSize.L);
 
   @Test
@@ -258,5 +257,65 @@ class BTPTreeTest {
 
     assertThat(tree.isEmpty()).isTrue();
     assertThat(tree.getRoot()).isNull();
+  }
+
+  @Test
+  void removeNodeWithTwoChildren() {
+    var tree = new BTPTree<String, SingleTimeInterval<String>>();
+
+    var intervalA = fixture.createInterval(5, 6, "A");
+    var intervalB = fixture.createInterval(1, 2, "B");
+    var intervalC = fixture.createInterval(3, 4, "C");
+
+    tree.insert(intervalA);
+    tree.insert(intervalB);
+    tree.insert(intervalC);
+
+    tree.removeNode(tree.getRoot());
+
+    assertThat(tree.isEmpty()).isFalse();
+    assertThat(tree.getRoot()).extracting(BTPTreeNode::getInterval).isEqualTo(intervalA);
+    assertThat(tree.getRoot().getLeft()).extracting(BTPTreeNode::getInterval).isEqualTo(intervalB);
+  }
+
+  @Test
+  void removeLeafNode() {
+    var tree = new BTPTree<String, SingleTimeInterval<String>>();
+
+    var intervalA = fixture.createInterval(5, 6, "A");
+    var intervalB = fixture.createInterval(1, 2, "B");
+    var intervalC = fixture.createInterval(3, 4, "C");
+
+    tree.insert(intervalA);
+    tree.insert(intervalB);
+    tree.insert(intervalC);
+
+    tree.removeNode(tree.getRoot().getLeft());
+
+    assertThat(tree.isEmpty()).isFalse();
+    assertThat(tree.getRoot()).extracting(BTPTreeNode::getInterval).isEqualTo(intervalC);
+    assertThat(tree.getRoot().getRight()).extracting(BTPTreeNode::getInterval).isEqualTo(intervalA);
+  }
+
+  @Test
+  void removeRedNode() {
+    var tree = new BTPTree<String, SingleTimeInterval<String>>();
+
+    var intervalA = fixture.createInterval(1, 2, "A");
+    var intervalB = fixture.createInterval(3, 4, "B");
+    var intervalC = fixture.createInterval(5, 6, "C");
+    var intervalD = fixture.createInterval(2, 3, "D");
+    var intervalE = fixture.createInterval(0, 1, "E");
+
+    tree.insert(intervalA);
+    tree.insert(intervalB);
+    tree.insert(intervalC);
+    tree.insert(intervalD);
+    tree.insert(intervalE);
+
+    tree.removeNode(tree.getRoot().getLeft().getRight());
+
+    assertThat(tree.getRoot()).isNotNull();
+    assertThat(tree.getIntervals()).containsExactly(intervalE, intervalA, intervalB, intervalC);
   }
 }

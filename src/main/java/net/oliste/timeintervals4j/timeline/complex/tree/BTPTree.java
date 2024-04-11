@@ -22,7 +22,6 @@ public class BTPTree<T, S extends SingleTimeInterval<T>> {
   }
 
   public List<BTPTreeNode<T, S>> search(ZonedDateTime timesamp, Predicate<S> predicate) {
-    // Traverse the tree to the left or right depending on the key
     var list = new ArrayList<BTPTreeNode<T, S>>();
     var node = root;
     while (node != null) {
@@ -37,7 +36,7 @@ public class BTPTree<T, S extends SingleTimeInterval<T>> {
           if (node.getInterval().contains(timesamp) && predicate.test(node.getInterval())) {
             list.add(node);
           }
-          node = findNext(node);
+          node = findSuccessorInOrder(node);
         }
         break;
       }
@@ -46,7 +45,6 @@ public class BTPTree<T, S extends SingleTimeInterval<T>> {
   }
 
   public List<BTPTreeNode<T, S>> search(S interval, Predicate<S> predicate) {
-    // Traverse the tree to the left or right depending on the key
     var list = new ArrayList<BTPTreeNode<T, S>>();
     var node = root;
     while (node != null) {
@@ -61,7 +59,7 @@ public class BTPTree<T, S extends SingleTimeInterval<T>> {
           if (interval.overlaps(node.getInterval()) && predicate.test(node.getInterval())) {
             list.add(node);
           }
-          node = findNext(node);
+          node = findSuccessorInOrder(node);
         }
         break;
       }
@@ -139,7 +137,7 @@ public class BTPTree<T, S extends SingleTimeInterval<T>> {
       fixRedBlackPropertiesAfterDelete(movedUpNode);
 
       // Remove the temporary NIL node
-      if (movedUpNode.getClass() == NilNode.class) {
+      if (movedUpNode.getClass() == NullNode.class) {
         swapParents(movedUpNode.getParent(), movedUpNode, null);
       }
     }
@@ -179,7 +177,7 @@ public class BTPTree<T, S extends SingleTimeInterval<T>> {
           throw new TimeIntervalException("there is no next interval");
         }
 
-        var newNext = findNext(next);
+        var newNext = findSuccessorInOrder(next);
         current = next;
         next = newNext;
 
@@ -252,7 +250,7 @@ public class BTPTree<T, S extends SingleTimeInterval<T>> {
     // From here on, parent is red
     var grandparent = parent.getParent();
     // Get the uncle (may be null/nil, in which case its color is BLACK)
-    var uncle = getUncle(parent);
+    var uncle = node.uncle();
 
     // Case 3: Uncle is red -> recolor parent, grandparent and uncle
     if (uncle != null && isNodeRed(uncle)) {
@@ -312,12 +310,12 @@ public class BTPTree<T, S extends SingleTimeInterval<T>> {
       return;
     }
 
-    var sibling = getSibling(node);
+    var sibling = node.sibling();
 
     // Case 2: Red sibling
     if (isNodeRed(sibling)) {
       handleRedSibling(node, sibling);
-      sibling = getSibling(node); // Get new sibling for fall-through to cases 3-6
+      sibling = node.sibling(); // Get new sibling for fall-through to cases 3-6
     }
 
     // Cases 3+4: Black sibling with two black children
@@ -356,22 +354,11 @@ public class BTPTree<T, S extends SingleTimeInterval<T>> {
 
     // Node has no children -->
     // * node is red --> just remove it
-    // * node is black --> replace it by a temporary NIL node (needed to fix the R-B rules)
+    // * node is black --> replace it by a temporary NULL node (needed to fix the R-B rules)
     else {
-      var newChild = !isNodeRed(node) ? new NilNode<T, S>() : null;
+      var newChild = !isNodeRed(node) ? new NullNode<T, S>() : null;
       swapParents(node.getParent(), node, newChild);
       return newChild;
-    }
-  }
-
-  private BTPTreeNode<T, S> getSibling(BTPTreeNode<T, S> node) {
-    var parent = node.getParent();
-    if (node == parent.getLeft()) {
-      return parent.getRight();
-    } else if (node == parent.getRight()) {
-      return parent.getLeft();
-    } else {
-      throw new IllegalStateException("Parent is not a child of its grandparent");
     }
   }
 
@@ -429,13 +416,7 @@ public class BTPTree<T, S extends SingleTimeInterval<T>> {
     return node != null && Color.BLACK.equals(node.getColor());
   }
 
-  private static class NilNode<T, S extends SingleTimeInterval<T>> extends BTPTreeNode<T, S> {
-    private NilNode() {
-      super(Color.BLACK, null, null, null, null);
-    }
-  }
-
-  private BTPTreeNode<T, S> findNext(BTPTreeNode<T, S> cur) {
+  private BTPTreeNode<T, S> findSuccessorInOrder(BTPTreeNode<T, S> cur) {
     if (cur == null) {
       return null;
     }
@@ -461,22 +442,9 @@ public class BTPTree<T, S extends SingleTimeInterval<T>> {
     return result;
   }
 
-  private BTPTreeNode<T, S> findMaximum(BTPTreeNode<T, S> node) {
-    var result = node;
-    while (result != null && result.getRight() != null) {
-      result = result.getRight();
-    }
-    return result;
-  }
-
-  BTPTreeNode<T, S> getUncle(BTPTreeNode<T, S> parent) {
-    var grandparent = parent.getParent();
-    if (grandparent.getLeft() == parent) {
-      return grandparent.getRight();
-    } else if (grandparent.getRight() == parent) {
-      return grandparent.getLeft();
-    } else {
-      throw new IllegalStateException("Parent is not a child of its grandparent");
+  private static class NullNode<T, S extends SingleTimeInterval<T>> extends BTPTreeNode<T, S> {
+    private NullNode() {
+      super(Color.BLACK, null, null, null, null);
     }
   }
 }
