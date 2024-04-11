@@ -17,14 +17,27 @@ import net.oliste.timeintervals4j.timeline.TimelineSearch;
 import net.oliste.timeintervals4j.timeline.complex.tree.BtpTree;
 import net.oliste.timeintervals4j.timeline.complex.tree.BtpTreeNode;
 
+/**
+ * Represents complex timeline that consist of {@link SingleTimeInterval} based non overlapping
+ * intervals.
+ *
+ * @author Paweł Łagan
+ * @param <T> time interval properties type
+ */
 @ToString
 @EqualsAndHashCode
 public class ComplexTimeline<T> implements Timeline<T, SingleTimeInterval<T>, ComplexTimeline<T>> {
 
   private final BtpTree<T, SingleTimeInterval<T>> intervalTree = new BtpTree<>();
 
+  /** Default constructor. */
   public ComplexTimeline() {}
 
+  /**
+   * Copy constructor.
+   *
+   * @param src the source timeline
+   */
   public ComplexTimeline(ComplexTimeline<T> src) {
     src.forEach(iv -> intervalTree.insert(iv.createCopy()));
   }
@@ -87,7 +100,7 @@ public class ComplexTimeline<T> implements Timeline<T, SingleTimeInterval<T>, Co
     return getIntervals().stream();
   }
 
-  public List<SingleTimeInterval<T>> getIntervals() {
+  List<SingleTimeInterval<T>> getIntervals() {
     return intervalTree.getIntervals();
   }
 }

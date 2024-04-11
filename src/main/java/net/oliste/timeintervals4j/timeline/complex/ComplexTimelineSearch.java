@@ -7,12 +7,18 @@ import net.oliste.timeintervals4j.interval.SingleTimeInterval;
 import net.oliste.timeintervals4j.timeline.TimelineSearch;
 import net.oliste.timeintervals4j.timeline.complex.tree.BtpTreeNode;
 
+/**
+ * Represents an object implementing all search methods for {@link ComplexTimeline}.
+ *
+ * @author Paweł Łagan
+ * @param <T> time interval properties type
+ */
 public class ComplexTimelineSearch<T>
     implements TimelineSearch<T, SingleTimeInterval<T>, ComplexTimeline<T>> {
 
   private final ComplexTimeline<T> timeline;
 
-  public ComplexTimelineSearch(ComplexTimeline<T> timeline) {
+  ComplexTimelineSearch(ComplexTimeline<T> timeline) {
     this.timeline = timeline;
   }
 

@@ -12,6 +12,13 @@ import lombok.RequiredArgsConstructor;
 import lombok.ToString;
 import net.oliste.timeintervals4j.math.TimeMath;
 
+/**
+ * Represents a time interval operations that might be performed on a single or two intervals.
+ *
+ * @author Paweł Łagan
+ * @param <S> type of the time interval that implements {@link TimeInterval}
+ * @param <T> type of the properties related to intervals
+ */
 @Getter
 @RequiredArgsConstructor(staticName = "of")
 @ToString
@@ -22,16 +29,38 @@ public class TimeIntervalOperation<T, S extends TimeInterval<S, T>> {
   private BinaryOperator<T> mergeStrategy = (propertiesA, propertiesB) -> propertiesA;
   private UnaryOperator<T> splitStrategy = propertiesA -> propertiesA;
 
+  /**
+   * Sets the merge strategy of the two intervals for all marge type operations. The resulting
+   * interval will have the properties returned by the strategy function.
+   *
+   * @param strategy the merge method
+   * @return {@link TimeIntervalOperation} reference to this object
+   */
   public TimeIntervalOperation<T, S> withMergeStrategy(BinaryOperator<T> strategy) {
     this.mergeStrategy = strategy;
     return this;
   }
 
+  /**
+   * Sets the split strategy of the single interval for all split type operations. The resulting new
+   * interval will have the properties returned by the strategy function.
+   *
+   * @param strategy the split method
+   * @return {@link TimeIntervalOperation} reference to this object
+   */
   public TimeIntervalOperation<T, S> withSplitStrategy(UnaryOperator<T> strategy) {
     this.splitStrategy = strategy;
     return this;
   }
 
+  /**
+   * Performs an intersection of the current interval with the given interval using the specified
+   * strategy. The resulting interval will have the properties of both intervals based on the
+   * current merge strategy.
+   *
+   * @param interval the interval to intersect with
+   * @return the intersection of the two intervals
+   */
   public S intersection(@NonNull TimeInterval<S, T> interval) {
     if (!argumentA.overlaps(interval)) {
       throw new TimeIntervalException("Internals do not overlaps");
@@ -44,6 +73,14 @@ public class TimeIntervalOperation<T, S extends TimeInterval<S, T>> {
         newFrom, newTo, mergeStrategy.apply(argumentA.getProperties(), interval.getProperties()));
   }
 
+  /**
+   * Performs a union of the current interval with the given interval using the specified strategy.
+   * The resulting interval will have the properties of both intervals based on the current merge
+   * strategy.
+   *
+   * @param interval the interval to union with
+   * @return the union of the two intervals
+   */
   public S union(@NonNull TimeInterval<S, T> interval) {
     if (!argumentA.overlaps(interval)) {
       throw new TimeIntervalException("Internals do not overlaps");
@@ -56,6 +93,12 @@ public class TimeIntervalOperation<T, S extends TimeInterval<S, T>> {
         newFrom, newTo, mergeStrategy.apply(argumentA.getProperties(), interval.getProperties()));
   }
 
+  /**
+   * Returns a list of time intervals representing the difference between the two time intervals.
+   *
+   * @param interval the second time interval
+   * @return a list of time intervals representing the difference
+   */
   public List<S> diff(@NonNull TimeInterval<S, T> interval) {
     if (!argumentA.overlaps(interval)) {
       throw new TimeIntervalException("Internals do not overlaps");
@@ -77,6 +120,15 @@ public class TimeIntervalOperation<T, S extends TimeInterval<S, T>> {
     return list;
   }
 
+  /**
+   * Performs a split of the current interval into two intervals using the specified strategy. The
+   * resulting intervals will have the properties of the original interval based on the current
+   * split strategy.
+   *
+   * @param time the point in time to split at
+   * @return a list of two intervals, one containing everything before the split point and one
+   *     containing everything after
+   */
   public List<S> split(@NonNull ZonedDateTime time) {
     if (!argumentA.contains(time)) {
       throw new TimeIntervalException("time point not withing interval boundary");

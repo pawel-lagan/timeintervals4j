@@ -6,6 +6,12 @@ import java.util.function.UnaryOperator;
 import net.oliste.timeintervals4j.interval.SingleTimeInterval;
 import net.oliste.timeintervals4j.timeline.TimelineOperation;
 
+/**
+ * Represents an object implementing all modify methods.
+ *
+ * @author Paweł Łagan
+ * @param <T> time interval properties type
+ */
 public class ComplexTimelineOperation<T>
     implements TimelineOperation<T, SingleTimeInterval<T>, ComplexTimeline<T>> {
 
@@ -13,7 +19,7 @@ public class ComplexTimelineOperation<T>
   private BinaryOperator<T> mergeStrategy = (propertiesA, propertiesB) -> propertiesA;
   private UnaryOperator<T> splitStrategy = propertiesA -> propertiesA;
 
-  public ComplexTimelineOperation(ComplexTimeline<T> timeline) {
+  ComplexTimelineOperation(ComplexTimeline<T> timeline) {
     this.timeline = timeline;
   }
 

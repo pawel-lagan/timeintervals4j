@@ -4,36 +4,62 @@ import java.time.ZonedDateTime;
 import java.util.ArrayList;
 import java.util.Iterator;
 import java.util.List;
+import java.util.NoSuchElementException;
 import java.util.function.Consumer;
 import java.util.function.Predicate;
 import net.oliste.timeintervals4j.interval.SingleTimeInterval;
 import net.oliste.timeintervals4j.interval.TimeIntervalException;
 import net.oliste.timeintervals4j.timeline.complex.tree.BtpTreeNode.Color;
 
+/**
+ * Represents the red black tree of the intervals.
+ *
+ * @author Paweł Łagan
+ * @param <T> type of the properties related to interval
+ * @param <S> type of the interval
+ */
 public class BtpTree<T, S extends SingleTimeInterval<T>> {
   private BtpTreeNode<T, S> root;
 
+  /**
+   * Checks if the tree is empty.
+   *
+   * @return true if empty, false otherwise
+   */
   public boolean isEmpty() {
     return root == null;
   }
 
+  /**
+   * Returns the root node of the tree.
+   *
+   * @return {@link BtpTreeNode} the root node, null if the tree is empty
+   */
   BtpTreeNode<T, S> getRoot() {
     return root;
   }
 
-  public List<BtpTreeNode<T, S>> search(ZonedDateTime timesamp, Predicate<S> predicate) {
+  /**
+   * Search for all nodes matching the criteria: contains timestamp passed as a parameter and
+   * matching predicate passed as a second one.
+   *
+   * @param timestamp {@link ZonedDateTime} timestamp
+   * @param predicate {@link Predicate} predicate
+   * @return {@link List} list of {@link BtpTreeNode} nodes matching the criteria
+   */
+  public List<BtpTreeNode<T, S>> search(ZonedDateTime timestamp, Predicate<S> predicate) {
     var list = new ArrayList<BtpTreeNode<T, S>>();
     var node = root;
     while (node != null) {
-      if (timesamp.isBefore(node.getInterval().getFrom())) {
+      if (timestamp.isBefore(node.getInterval().getFrom())) {
         node = node.getLeft();
-      } else if (timesamp.isAfter(node.getInterval().getTo())) {
+      } else if (timestamp.isAfter(node.getInterval().getTo())) {
         node = node.getRight();
       } else {
         var parent = node.getParent();
         node = findMinimum(node);
         while (node != null && node != parent) {
-          if (node.getInterval().contains(timesamp) && predicate.test(node.getInterval())) {
+          if (node.getInterval().contains(timestamp) && predicate.test(node.getInterval())) {
             list.add(node);
           }
           node = findSuccessorInOrder(node);
@@ -44,6 +70,14 @@ public class BtpTree<T, S extends SingleTimeInterval<T>> {
     return list;
   }
 
+  /**
+   * Search for all nodes matching the criteria: overlaps interval passed as a parameter and
+   * matching predicate passed as a second one.
+   *
+   * @param interval {@link SingleTimeInterval} interval
+   * @param predicate {@link Predicate} predicate
+   * @return {@link List} list of {@link BtpTreeNode} nodes matching the criteria
+   */
   public List<BtpTreeNode<T, S>> search(S interval, Predicate<S> predicate) {
     var list = new ArrayList<BtpTreeNode<T, S>>();
     var node = root;
@@ -67,6 +101,12 @@ public class BtpTree<T, S extends SingleTimeInterval<T>> {
     return list;
   }
 
+  /**
+   * Inserts interval into the tree.
+   *
+   * @param interval {@link SingleTimeInterval} interval
+   * @throws TimeIntervalException when there is already overlapping interval in the tree
+   */
   public void insert(S interval) {
     var node = root;
     var lastLeft = false;
@@ -101,6 +141,11 @@ public class BtpTree<T, S extends SingleTimeInterval<T>> {
     fixRedBlackPropertiesAfterInsert(newNode);
   }
 
+  /**
+   * Removes node from the tree.
+   *
+   * @param node {@link BtpTreeNode} node
+   */
   public void removeNode(BtpTreeNode<T, S> node) {
     // Node not found?
     if (node == null) {
@@ -139,6 +184,11 @@ public class BtpTree<T, S extends SingleTimeInterval<T>> {
     }
   }
 
+  /**
+   * Iteration over the tree nodes in order.
+   *
+   * @param intervalConsumer {@link Consumer} of time intervals
+   */
   public void forEach(Consumer<S> intervalConsumer) {
     var it = iterator();
     while (it.hasNext()) {
@@ -147,6 +197,11 @@ public class BtpTree<T, S extends SingleTimeInterval<T>> {
     }
   }
 
+  /**
+   * Returns all tree nodes in order.
+   *
+   * @return {@link List} list of the intervals
+   */
   public List<S> getIntervals() {
     var list = new ArrayList<S>();
     var it = iterator();
@@ -157,10 +212,14 @@ public class BtpTree<T, S extends SingleTimeInterval<T>> {
     return list;
   }
 
+  /**
+   * Returns iterator over collection of time intervals.
+   *
+   * @return {@link Iterator} object
+   */
   public Iterator<BtpTreeNode<T, S>> iterator() {
     return new Iterator<>() {
       private BtpTreeNode<T, S> next = findMinimum(root);
-      private BtpTreeNode<T, S> current = null;
 
       @Override
       public boolean hasNext() {
@@ -170,11 +229,11 @@ public class BtpTree<T, S extends SingleTimeInterval<T>> {
       @Override
       public BtpTreeNode<T, S> next() {
         if (next == null) {
-          throw new TimeIntervalException("there is no next interval");
+          throw new NoSuchElementException("there is no next interval");
         }
 
         var newNext = findSuccessorInOrder(next);
-        current = next;
+        var current = next;
         next = newNext;
 
         return current;
@@ -245,7 +304,8 @@ public class BtpTree<T, S extends SingleTimeInterval<T>> {
 
     // From here on, parent is red
     var grandparent = parent.getParent();
-    // Get the uncle (may be null/nil, in which case its color is BLACK)
+
+    // Get the uncle (might be null, in which case its color is BLACK)
     var uncle = node.uncle();
 
     // Case 3: Uncle is red -> recolor parent, grandparent and uncle
@@ -262,7 +322,7 @@ public class BtpTree<T, S extends SingleTimeInterval<T>> {
       if (node == parent.getRight()) {
         rotateLeft(parent);
 
-        // Let "parent" point to the new root node of the rotated sub-tree.
+        // Let "parent" point to the new root node of the rotated subtree.
         // It will be recolored in the next step, which we're going to fall-through to.
         parent = node;
       }
@@ -278,7 +338,7 @@ public class BtpTree<T, S extends SingleTimeInterval<T>> {
       if (node == parent.getLeft()) {
         rotateRight(parent);
 
-        // Let "parent" point to the new root node of the rotated sub-tree.
+        // Let "parent" point to the new root node of the rotated subtree.
         // It will be recolored in the next step, which we're going to fall-through to.
         parent = node;
       }

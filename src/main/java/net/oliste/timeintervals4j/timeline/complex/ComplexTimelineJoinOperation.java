@@ -5,6 +5,12 @@ import java.util.function.UnaryOperator;
 import net.oliste.timeintervals4j.interval.SingleTimeInterval;
 import net.oliste.timeintervals4j.timeline.TimelineJoinOperation;
 
+/**
+ * Represents an object implementing all merge like methods.
+ *
+ * @author Paweł Łagan
+ * @param <T> time interval properties type
+ */
 public class ComplexTimelineJoinOperation<T>
     implements TimelineJoinOperation<T, SingleTimeInterval<T>, ComplexTimeline<T>> {
 
@@ -13,7 +19,7 @@ public class ComplexTimelineJoinOperation<T>
   private BinaryOperator<T> mergeStrategy = (propertiesA, propertiesB) -> propertiesA;
   private UnaryOperator<T> splitStrategy = propertiesA -> propertiesA;
 
-  public ComplexTimelineJoinOperation(ComplexTimeline<T> timeline) {
+  ComplexTimelineJoinOperation(ComplexTimeline<T> timeline) {
     this.timeline = timeline;
   }
 

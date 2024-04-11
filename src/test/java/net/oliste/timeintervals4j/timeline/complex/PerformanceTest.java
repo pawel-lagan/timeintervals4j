@@ -11,7 +11,7 @@ import org.junit.jupiter.api.Test;
 import org.junit.jupiter.api.extension.ExtendWith;
 
 @ExtendWith(JUnitPerfInterceptor.class)
-public class PerformanceTest {
+class PerformanceTest {
 
   public static final int ITEMS_ADDED = 100;
   private final TimeIntervalFixture fixture = new TimeIntervalFixture(IntervalSize.L);
@@ -21,7 +21,7 @@ public class PerformanceTest {
   @JUnitPerfTest(threads = 1, durationMs = 10_000, warmUpMs = 2_000)
   @JUnitPerfTestRequirement(
       percentiles = "90:7,95:7,98:7,99:8",
-      executionsPerSec = 55000,
+      executionsPerSec = 25000, // performence for CI on i7 bare metal should be around 82k - 95k
       allowedErrorPercentage = 0)
   void addInOrderOperation() {
     var timeline = new ComplexTimeline<>();
