@@ -1,1 +1,1 @@
-mvn com.spotify.fmt:fmt-maven-plugin:format 
+mvn com.spotify.fmt:fmt-maven-plugin:format

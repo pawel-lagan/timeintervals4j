@@ -1,7 +1,6 @@
 package net.oliste.timeintervals4j.math;
 
 import static org.assertj.core.api.Assertions.assertThat;
-import static org.junit.jupiter.api.Assertions.*;
 
 import net.oliste.timeintervals4j.interval.TimeIntervalFixture;
 import net.oliste.timeintervals4j.interval.TimeIntervalFixture.IntervalOffset;

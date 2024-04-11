@@ -9,16 +9,16 @@ import java.util.stream.IntStream;
 
 public class CalendarFixture {
 
-  private final ZonedDateTime NOW =
+  private static final ZonedDateTime NOW =
       LocalDateTime.parse("2024-03-25T12:00:00").atZone(ZoneId.of("UTC"));
 
-  private final ZonedDateTime NOW_BEGINNING_OF_THE_DAY =
+  private static final ZonedDateTime NOW_BEGINNING_OF_THE_DAY =
       LocalDateTime.parse("2024-03-25T00:00:00").atZone(ZoneId.of("UTC"));
 
-  private final ZonedDateTime NOW_BEGINNING_OF_THE_MONTH =
+  private static final ZonedDateTime NOW_BEGINNING_OF_THE_MONTH =
       LocalDateTime.parse("2024-03-01T00:00:00").atZone(ZoneId.of("UTC"));
 
-  private final ZonedDateTime NOW_BEGINNING_OF_THE_YEAR =
+  private static final ZonedDateTime NOW_BEGINNING_OF_THE_YEAR =
       LocalDateTime.parse("2024-01-01T00:00:00").atZone(ZoneId.of("UTC"));
 
   public CalendarFixture() {}

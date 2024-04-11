@@ -8,12 +8,12 @@ import net.oliste.timeintervals4j.interval.SingleTimeInterval;
 
 @AllArgsConstructor
 @Setter(AccessLevel.PACKAGE)
-public class BTPTreeNode<T, S extends SingleTimeInterval<T>> {
+public class BtpTreeNode<T, S extends SingleTimeInterval<T>> {
   @Getter private Color color;
   @Getter private S interval;
-  @Getter private BTPTreeNode<T, S> parent;
-  @Getter private BTPTreeNode<T, S> left;
-  @Getter private BTPTreeNode<T, S> right;
+  @Getter private BtpTreeNode<T, S> parent;
+  @Getter private BtpTreeNode<T, S> left;
+  @Getter private BtpTreeNode<T, S> right;
 
   public enum Color {
     RED,
@@ -28,7 +28,7 @@ public class BTPTreeNode<T, S extends SingleTimeInterval<T>> {
     return left == null && right == null;
   }
 
-  public BTPTreeNode<T, S> uncle() {
+  public BtpTreeNode<T, S> uncle() {
     if (parent == null) {
       return null;
     }
@@ -43,7 +43,7 @@ public class BTPTreeNode<T, S extends SingleTimeInterval<T>> {
     }
   }
 
-  public BTPTreeNode<T, S> sibling() {
+  public BtpTreeNode<T, S> sibling() {
     if (this == parent.getLeft()) {
       return parent.getRight();
     } else if (this == parent.getRight()) {

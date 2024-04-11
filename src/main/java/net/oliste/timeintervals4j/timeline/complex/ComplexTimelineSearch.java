@@ -5,7 +5,7 @@ import java.util.List;
 import java.util.Optional;
 import net.oliste.timeintervals4j.interval.SingleTimeInterval;
 import net.oliste.timeintervals4j.timeline.TimelineSearch;
-import net.oliste.timeintervals4j.timeline.complex.tree.BTPTreeNode;
+import net.oliste.timeintervals4j.timeline.complex.tree.BtpTreeNode;
 
 public class ComplexTimelineSearch<T>
     implements TimelineSearch<T, SingleTimeInterval<T>, ComplexTimeline<T>> {
@@ -19,21 +19,21 @@ public class ComplexTimelineSearch<T>
   @Override
   public List<SingleTimeInterval<T>> findOverlapping(SingleTimeInterval<T> interval) {
     return timeline.search(interval, iv -> iv.overlaps(interval)).stream()
-        .map(BTPTreeNode::getInterval)
+        .map(BtpTreeNode::getInterval)
         .toList();
   }
 
   @Override
   public List<SingleTimeInterval<T>> findContaining(SingleTimeInterval<T> interval) {
     return timeline.search(interval, iv -> interval.contains(iv)).stream()
-        .map(BTPTreeNode::getInterval)
+        .map(BtpTreeNode::getInterval)
         .toList();
   }
 
   @Override
   public Optional<SingleTimeInterval<T>> findContaining(ZonedDateTime timestamp) {
     return timeline.search(timestamp, iv -> iv.contains(timestamp)).stream()
-        .map(BTPTreeNode::getInterval)
+        .map(BtpTreeNode::getInterval)
         .findFirst();
   }
 

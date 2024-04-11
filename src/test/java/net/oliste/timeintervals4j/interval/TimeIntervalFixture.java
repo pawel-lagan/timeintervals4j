@@ -7,7 +7,7 @@ import lombok.Getter;
 import net.oliste.timeintervals4j.math.TimeMath;
 
 public class TimeIntervalFixture {
-  private final ZonedDateTime NOW =
+  private static final ZonedDateTime NOW =
       LocalDateTime.parse("2024-03-25T12:00:00").atZone(ZoneId.of("UTC"));
   private final IntervalSize gridSize;
 
@@ -64,7 +64,7 @@ public class TimeIntervalFixture {
     }
   }
 
-  /** Left Start Center End Right ----- | ------ | ------ | ------ | ------ | ------- */
+  /** Left Start Center End Right ----- | ------ | ------ | ------ | ------ | -------. */
   public enum IntervalOffset {
     _1(-1f),
     _2(0),

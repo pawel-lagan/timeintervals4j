@@ -14,14 +14,14 @@ import net.oliste.timeintervals4j.timeline.Timeline;
 import net.oliste.timeintervals4j.timeline.TimelineJoinOperation;
 import net.oliste.timeintervals4j.timeline.TimelineOperation;
 import net.oliste.timeintervals4j.timeline.TimelineSearch;
-import net.oliste.timeintervals4j.timeline.complex.tree.BTPTree;
-import net.oliste.timeintervals4j.timeline.complex.tree.BTPTreeNode;
+import net.oliste.timeintervals4j.timeline.complex.tree.BtpTree;
+import net.oliste.timeintervals4j.timeline.complex.tree.BtpTreeNode;
 
 @ToString
 @EqualsAndHashCode
 public class ComplexTimeline<T> implements Timeline<T, SingleTimeInterval<T>, ComplexTimeline<T>> {
 
-  private final BTPTree<T, SingleTimeInterval<T>> intervalTree = new BTPTree<>();
+  private final BtpTree<T, SingleTimeInterval<T>> intervalTree = new BtpTree<>();
 
   public ComplexTimeline() {}
 
@@ -37,12 +37,12 @@ public class ComplexTimeline<T> implements Timeline<T, SingleTimeInterval<T>, Co
     intervalTree.insert(interval);
   }
 
-  List<BTPTreeNode<T, SingleTimeInterval<T>>> search(
+  List<BtpTreeNode<T, SingleTimeInterval<T>>> search(
       SingleTimeInterval<T> interval, Predicate<SingleTimeInterval<T>> predicate) {
     return intervalTree.search(interval, predicate);
   }
 
-  List<BTPTreeNode<T, SingleTimeInterval<T>>> search(
+  List<BtpTreeNode<T, SingleTimeInterval<T>>> search(
       ZonedDateTime timestamp, Predicate<SingleTimeInterval<T>> predicate) {
     return intervalTree.search(timestamp, predicate);
   }

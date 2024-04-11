@@ -1,7 +1,6 @@
 package net.oliste.timeintervals4j.calendar;
 
 import static org.assertj.core.api.Assertions.assertThat;
-import static org.junit.jupiter.api.Assertions.*;
 
 import org.junit.jupiter.api.Test;
 

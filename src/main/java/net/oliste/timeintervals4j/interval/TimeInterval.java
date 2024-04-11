@@ -15,13 +15,13 @@ public interface TimeInterval<S extends TimeInterval<S, T>, T> {
     return TimeMath.isBeforeOrEquals(getFrom(), timestamp) && TimeMath.isAfter(getTo(), timestamp);
   }
 
-  default boolean notContains(@NonNull ZonedDateTime timestamp) {
-    return !contains(timestamp);
-  }
-
   default boolean contains(@NonNull TimeInterval<S, ?> interval) {
     return TimeMath.isAfterOrEquals(interval.getFrom(), getFrom())
         && TimeMath.isBeforeOrEquals(interval.getTo(), getTo());
+  }
+
+  default boolean notContains(@NonNull ZonedDateTime timestamp) {
+    return !contains(timestamp);
   }
 
   default boolean notContains(@NonNull TimeInterval<S, ?> interval) {

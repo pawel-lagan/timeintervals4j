@@ -18,7 +18,7 @@ import net.oliste.timeintervals4j.math.TimeMath;
 @EqualsAndHashCode
 public class TimeIntervalOperation<T, S extends TimeInterval<S, T>> {
 
-  private final S a;
+  private final S argumentA;
   private BinaryOperator<T> mergeStrategy = (propertiesA, propertiesB) -> propertiesA;
   private UnaryOperator<T> splitStrategy = propertiesA -> propertiesA;
 
@@ -33,64 +33,71 @@ public class TimeIntervalOperation<T, S extends TimeInterval<S, T>> {
   }
 
   public S intersection(@NonNull TimeInterval<S, T> interval) {
-    if (!a.overlaps(interval)) {
+    if (!argumentA.overlaps(interval)) {
       throw new TimeIntervalException("Internals do not overlaps");
     }
 
-    ZonedDateTime iFrom = TimeMath.max(a.getFrom(), interval.getFrom());
-    ZonedDateTime iTo = TimeMath.min(a.getTo(), interval.getTo());
-    validateTimeInterval(iFrom, iTo);
-    return a.create(iFrom, iTo, mergeStrategy.apply(a.getProperties(), interval.getProperties()));
+    ZonedDateTime newFrom = TimeMath.max(argumentA.getFrom(), interval.getFrom());
+    ZonedDateTime newTo = TimeMath.min(argumentA.getTo(), interval.getTo());
+    validateTimeInterval(newFrom, newTo);
+    return argumentA.create(
+        newFrom, newTo, mergeStrategy.apply(argumentA.getProperties(), interval.getProperties()));
   }
 
   public S union(@NonNull TimeInterval<S, T> interval) {
-    if (!a.overlaps(interval)) {
+    if (!argumentA.overlaps(interval)) {
       throw new TimeIntervalException("Internals do not overlaps");
     }
 
-    ZonedDateTime iFrom = TimeMath.min(a.getFrom(), interval.getFrom());
-    ZonedDateTime iTo = TimeMath.max(a.getTo(), interval.getTo());
-    validateTimeInterval(iFrom, iTo);
-    return a.create(iFrom, iTo, mergeStrategy.apply(a.getProperties(), interval.getProperties()));
+    ZonedDateTime newFrom = TimeMath.min(argumentA.getFrom(), interval.getFrom());
+    ZonedDateTime newTo = TimeMath.max(argumentA.getTo(), interval.getTo());
+    validateTimeInterval(newFrom, newTo);
+    return argumentA.create(
+        newFrom, newTo, mergeStrategy.apply(argumentA.getProperties(), interval.getProperties()));
   }
 
   public List<S> diff(@NonNull TimeInterval<S, T> interval) {
-    if (!a.overlaps(interval)) {
+    if (!argumentA.overlaps(interval)) {
       throw new TimeIntervalException("Internals do not overlaps");
     }
 
     var list = new LinkedList<S>();
 
-    if (TimeMath.isBefore(a.getFrom(), interval.getFrom())) {
-      list.add(a.create(a.getFrom(), interval.getFrom(), a.getProperties()));
+    if (TimeMath.isBefore(argumentA.getFrom(), interval.getFrom())) {
+      list.add(
+          argumentA.create(argumentA.getFrom(), interval.getFrom(), argumentA.getProperties()));
     }
 
-    if (TimeMath.isBefore(interval.getTo(), a.getTo())) {
-      list.add(a.create(interval.getTo(), a.getTo(), splitStrategy.apply(a.getProperties())));
+    if (TimeMath.isBefore(interval.getTo(), argumentA.getTo())) {
+      list.add(
+          argumentA.create(
+              interval.getTo(), argumentA.getTo(), splitStrategy.apply(argumentA.getProperties())));
     }
 
     return list;
   }
 
   public List<S> split(@NonNull ZonedDateTime time) {
-    if (!a.contains(time)) {
+    if (!argumentA.contains(time)) {
       throw new TimeIntervalException("time point not withing interval boundary");
     }
 
     var list = new LinkedList<S>();
-    if (a.getFrom().isBefore(time)) {
-      list.add(a.create(a.getFrom(), time, a.getProperties()));
+    if (argumentA.getFrom().isBefore(time)) {
+      list.add(argumentA.create(argumentA.getFrom(), time, argumentA.getProperties()));
     }
 
-    if (time.isBefore(a.getTo())) {
-      list.add(a.create(time, a.getTo(), splitStrategy.apply(a.getProperties())));
+    if (time.isBefore(argumentA.getTo())) {
+      list.add(
+          argumentA.create(
+              time, argumentA.getTo(), splitStrategy.apply(argumentA.getProperties())));
     }
 
     return list;
   }
 
-  private static void validateTimeInterval(ZonedDateTime iFrom, ZonedDateTime iTo) {
-    if (iFrom != null && iTo != null && !iFrom.isBefore(iTo)) {
+  private static void validateTimeInterval(ZonedDateTime from, ZonedDateTime to) {
+    if (from != null && to != null && !from.isBefore(to)) {
       throw new TimeIntervalException("Invalid state of interval calculation");
     }
   }

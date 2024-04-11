@@ -6,21 +6,21 @@ import java.util.ArrayList;
 import net.oliste.timeintervals4j.interval.SingleTimeInterval;
 import net.oliste.timeintervals4j.interval.TimeIntervalFixture;
 import net.oliste.timeintervals4j.interval.TimeIntervalFixture.IntervalSize;
-import net.oliste.timeintervals4j.timeline.complex.tree.BTPTreeNode.Color;
+import net.oliste.timeintervals4j.timeline.complex.tree.BtpTreeNode.Color;
 import org.junit.jupiter.api.Test;
 
-class BTPTreeTest {
+class BtpTreeTest {
   private final TimeIntervalFixture fixture = new TimeIntervalFixture(IntervalSize.L);
 
   @Test
   void initialStateOfTheTreeIsEmpty() {
-    var tree = new BTPTree<String, SingleTimeInterval<String>>();
+    var tree = new BtpTree<String, SingleTimeInterval<String>>();
     assertThat(tree.isEmpty()).isTrue();
   }
 
   @Test
   void rootNodeShouldBeBlack() {
-    var tree = new BTPTree<String, SingleTimeInterval<String>>();
+    var tree = new BtpTree<String, SingleTimeInterval<String>>();
 
     var intervalA = fixture.createInterval(5, 6, "A");
     tree.insert(intervalA);
@@ -28,14 +28,14 @@ class BTPTreeTest {
     assertThat(tree.isEmpty()).isFalse();
     assertThat(tree.getRoot())
         .isNotNull()
-        .extracting(BTPTreeNode::getInterval)
+        .extracting(BtpTreeNode::getInterval)
         .isEqualTo(intervalA);
     assertThat(tree.getRoot().getColor()).isEqualTo(Color.BLACK);
   }
 
   @Test
   void parentNodeIsBlack() {
-    var tree = new BTPTree<String, SingleTimeInterval<String>>();
+    var tree = new BtpTree<String, SingleTimeInterval<String>>();
 
     var intervalA = fixture.createInterval(5, 6, "A");
     var intervalB = fixture.createInterval(1, 2, "B");
@@ -49,7 +49,7 @@ class BTPTreeTest {
 
   @Test
   void parentNodeIsRedAndThereIsNoUncleLeftRightRotationIsRequired() {
-    var tree = new BTPTree<String, SingleTimeInterval<String>>();
+    var tree = new BtpTree<String, SingleTimeInterval<String>>();
 
     var intervalA = fixture.createInterval(5, 6, "A");
     var intervalB = fixture.createInterval(1, 2, "B");
@@ -70,7 +70,7 @@ class BTPTreeTest {
 
   @Test
   void parentNodeIsRedAndThereIsNoUncleRightLeftRotationIsRequired() {
-    var tree = new BTPTree<String, SingleTimeInterval<String>>();
+    var tree = new BtpTree<String, SingleTimeInterval<String>>();
 
     var intervalA = fixture.createInterval(1, 2, "A");
     var intervalB = fixture.createInterval(5, 6, "B");
@@ -91,7 +91,7 @@ class BTPTreeTest {
 
   @Test
   void parentNodeIsRedAndThereIsNoUncleLeftLeftRotationIsRequired() {
-    var tree = new BTPTree<String, SingleTimeInterval<String>>();
+    var tree = new BtpTree<String, SingleTimeInterval<String>>();
 
     var intervalA = fixture.createInterval(5, 6, "A");
     var intervalB = fixture.createInterval(3, 4, "B");
@@ -112,7 +112,7 @@ class BTPTreeTest {
 
   @Test
   void parentNodeIsRedAndThereIsNoUncleRightRightRotationIsRequired() {
-    var tree = new BTPTree<String, SingleTimeInterval<String>>();
+    var tree = new BtpTree<String, SingleTimeInterval<String>>();
 
     var intervalA = fixture.createInterval(1, 2, "A");
     var intervalB = fixture.createInterval(3, 4, "B");
@@ -133,7 +133,7 @@ class BTPTreeTest {
 
   @Test
   void parentNodeIsRedAndUncleIsRedThenRecolor() {
-    var tree = new BTPTree<String, SingleTimeInterval<String>>();
+    var tree = new BtpTree<String, SingleTimeInterval<String>>();
 
     var intervalA = fixture.createInterval(1, 2, "A");
     var intervalB = fixture.createInterval(3, 4, "B");
@@ -161,7 +161,7 @@ class BTPTreeTest {
 
   @Test
   void addingDandEdontRequireAction() {
-    var tree = new BTPTree<String, SingleTimeInterval<String>>();
+    var tree = new BtpTree<String, SingleTimeInterval<String>>();
 
     var intervalA = fixture.createInterval(1, 2, "A");
     var intervalB = fixture.createInterval(3, 4, "B");
@@ -193,7 +193,7 @@ class BTPTreeTest {
 
   @Test
   void iteratorShouldKeepOrder() {
-    var tree = new BTPTree<String, SingleTimeInterval<String>>();
+    var tree = new BtpTree<String, SingleTimeInterval<String>>();
 
     var intervalA = fixture.createInterval(1, 2, "A");
     var intervalB = fixture.createInterval(3, 4, "B");
@@ -215,7 +215,7 @@ class BTPTreeTest {
 
   @Test
   void addInOrderOperation() {
-    var tree = new BTPTree<String, SingleTimeInterval<String>>();
+    var tree = new BtpTree<String, SingleTimeInterval<String>>();
 
     var n = 50;
     for (var i = 1; i < n; i++) {
@@ -226,7 +226,7 @@ class BTPTreeTest {
 
   @Test
   void searchRange() {
-    var tree = new BTPTree<String, SingleTimeInterval<String>>();
+    var tree = new BtpTree<String, SingleTimeInterval<String>>();
 
     var n = 20;
     var list = new ArrayList<SingleTimeInterval<String>>();
@@ -241,13 +241,13 @@ class BTPTreeTest {
 
     var result = tree.search(searchRange, (node) -> true);
     assertThat(result)
-        .extracting(BTPTreeNode::getInterval)
+        .extracting(BtpTreeNode::getInterval)
         .containsExactly(list.get(2), list.get(3), list.get(4), list.get(5));
   }
 
   @Test
   void treeShouldBeEmptyAfterRemovingTheRoot() {
-    var tree = new BTPTree<String, SingleTimeInterval<String>>();
+    var tree = new BtpTree<String, SingleTimeInterval<String>>();
 
     var intervalA = fixture.createInterval(1, 2, "A");
 
@@ -261,7 +261,7 @@ class BTPTreeTest {
 
   @Test
   void removeNodeWithTwoChildren() {
-    var tree = new BTPTree<String, SingleTimeInterval<String>>();
+    var tree = new BtpTree<String, SingleTimeInterval<String>>();
 
     var intervalA = fixture.createInterval(5, 6, "A");
     var intervalB = fixture.createInterval(1, 2, "B");
@@ -274,13 +274,13 @@ class BTPTreeTest {
     tree.removeNode(tree.getRoot());
 
     assertThat(tree.isEmpty()).isFalse();
-    assertThat(tree.getRoot()).extracting(BTPTreeNode::getInterval).isEqualTo(intervalA);
-    assertThat(tree.getRoot().getLeft()).extracting(BTPTreeNode::getInterval).isEqualTo(intervalB);
+    assertThat(tree.getRoot()).extracting(BtpTreeNode::getInterval).isEqualTo(intervalA);
+    assertThat(tree.getRoot().getLeft()).extracting(BtpTreeNode::getInterval).isEqualTo(intervalB);
   }
 
   @Test
   void removeLeafNode() {
-    var tree = new BTPTree<String, SingleTimeInterval<String>>();
+    var tree = new BtpTree<String, SingleTimeInterval<String>>();
 
     var intervalA = fixture.createInterval(5, 6, "A");
     var intervalB = fixture.createInterval(1, 2, "B");
@@ -293,13 +293,13 @@ class BTPTreeTest {
     tree.removeNode(tree.getRoot().getLeft());
 
     assertThat(tree.isEmpty()).isFalse();
-    assertThat(tree.getRoot()).extracting(BTPTreeNode::getInterval).isEqualTo(intervalC);
-    assertThat(tree.getRoot().getRight()).extracting(BTPTreeNode::getInterval).isEqualTo(intervalA);
+    assertThat(tree.getRoot()).extracting(BtpTreeNode::getInterval).isEqualTo(intervalC);
+    assertThat(tree.getRoot().getRight()).extracting(BtpTreeNode::getInterval).isEqualTo(intervalA);
   }
 
   @Test
   void removeRedNode() {
-    var tree = new BTPTree<String, SingleTimeInterval<String>>();
+    var tree = new BtpTree<String, SingleTimeInterval<String>>();
 
     var intervalA = fixture.createInterval(1, 2, "A");
     var intervalB = fixture.createInterval(3, 4, "B");
