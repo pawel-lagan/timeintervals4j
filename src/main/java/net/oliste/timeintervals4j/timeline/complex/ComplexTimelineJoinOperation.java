@@ -5,6 +5,12 @@ import java.util.function.UnaryOperator;
 import net.oliste.timeintervals4j.interval.SingleTimeInterval;
 import net.oliste.timeintervals4j.timeline.TimelineJoinOperation;
 
+/**
+ * Represents an object implementing all merge like methods.
+ *
+ * @author Paweł Łagan
+ * @param <T> time interval properties type
+ */
 public class ComplexTimelineJoinOperation<T>
     implements TimelineJoinOperation<T, SingleTimeInterval<T>, ComplexTimeline<T>> {
 
@@ -13,7 +19,7 @@ public class ComplexTimelineJoinOperation<T>
   private BinaryOperator<T> mergeStrategy = (propertiesA, propertiesB) -> propertiesA;
   private UnaryOperator<T> splitStrategy = propertiesA -> propertiesA;
 
-  public ComplexTimelineJoinOperation(ComplexTimeline<T> timeline) {
+  ComplexTimelineJoinOperation(ComplexTimeline<T> timeline) {
     this.timeline = timeline;
   }
 
@@ -35,27 +41,23 @@ public class ComplexTimelineJoinOperation<T>
     var resultsModifier =
         result.modify().withMergeStrategy(mergeStrategy).withSplitStrategy(splitStrategy);
 
-    timeline
-        .getIntervals()
-        .forEach(
-            ivA ->
-                timelineB
-                    .getIntervals()
-                    .forEach(
-                        ivB -> {
-                          if (ivA.overlaps(ivB)) {
-                            resultsModifier.overwrite(
-                                ivA.combine()
-                                    .withMergeStrategy(mergeStrategy)
-                                    .withSplitStrategy(splitStrategy)
-                                    .intersection(ivB));
-                            ivB.combine()
-                                .withMergeStrategy(mergeStrategy)
-                                .withSplitStrategy(splitStrategy)
-                                .diff(ivA)
-                                .forEach(resultsModifier::insert);
-                          }
-                        }));
+    timeline.forEach(
+        ivA ->
+            timelineB.forEach(
+                ivB -> {
+                  if (ivA.overlaps(ivB)) {
+                    resultsModifier.overwrite(
+                        ivA.combine()
+                            .withMergeStrategy(mergeStrategy)
+                            .withSplitStrategy(splitStrategy)
+                            .intersection(ivB));
+                    ivB.combine()
+                        .withMergeStrategy(mergeStrategy)
+                        .withSplitStrategy(splitStrategy)
+                        .diff(ivA)
+                        .forEach(resultsModifier::insert);
+                  }
+                }));
 
     return result;
   }
@@ -64,22 +66,18 @@ public class ComplexTimelineJoinOperation<T>
   public ComplexTimeline<T> intersection(ComplexTimeline<T> timelineB) {
     var result = new ComplexTimeline<T>();
 
-    timeline
-        .getIntervals()
-        .forEach(
-            ivA ->
-                timelineB
-                    .getIntervals()
-                    .forEach(
-                        ivB -> {
-                          if (ivA.overlaps(ivB)) {
-                            result.addInOrder(
-                                ivA.combine()
-                                    .withMergeStrategy(mergeStrategy)
-                                    .withSplitStrategy(splitStrategy)
-                                    .intersection(ivB));
-                          }
-                        }));
+    timeline.forEach(
+        ivA ->
+            timelineB.forEach(
+                ivB -> {
+                  if (ivA.overlaps(ivB)) {
+                    result.addInOrder(
+                        ivA.combine()
+                            .withMergeStrategy(mergeStrategy)
+                            .withSplitStrategy(splitStrategy)
+                            .intersection(ivB));
+                  }
+                }));
 
     return result;
   }
@@ -88,22 +86,18 @@ public class ComplexTimelineJoinOperation<T>
   public ComplexTimeline<T> diff(ComplexTimeline<T> timelineB) {
     var result = new ComplexTimeline<T>();
 
-    timeline
-        .getIntervals()
-        .forEach(
-            ivA ->
-                timelineB
-                    .getIntervals()
-                    .forEach(
-                        ivB -> {
-                          if (ivA.overlaps(ivB)) {
-                            result.addInOrder(
-                                ivA.combine()
-                                    .withMergeStrategy(mergeStrategy)
-                                    .withSplitStrategy(splitStrategy)
-                                    .diff(ivB));
-                          }
-                        }));
+    timeline.forEach(
+        ivA ->
+            timelineB.forEach(
+                ivB -> {
+                  if (ivA.overlaps(ivB)) {
+                    result.addInOrder(
+                        ivA.combine()
+                            .withMergeStrategy(mergeStrategy)
+                            .withSplitStrategy(splitStrategy)
+                            .diff(ivB));
+                  }
+                }));
 
     return result;
   }
@@ -113,35 +107,31 @@ public class ComplexTimelineJoinOperation<T>
     var result = new ComplexTimeline<>(timeline);
     var resultModifier = result.modify();
 
-    timeline
-        .getIntervals()
-        .forEach(
-            ivA ->
-                timelineB
-                    .getIntervals()
-                    .forEach(
-                        ivB -> {
-                          result
-                              .find()
-                              .findContaining(ivB.getFrom())
-                              .ifPresent(
-                                  iv ->
-                                      iv.combine()
-                                          .withMergeStrategy(mergeStrategy)
-                                          .withSplitStrategy(splitStrategy)
-                                          .split(ivB.getFrom())
-                                          .forEach(resultModifier::overwrite));
-                          result
-                              .find()
-                              .findContaining(ivB.getTo())
-                              .ifPresent(
-                                  iv ->
-                                      iv.combine()
-                                          .withMergeStrategy(mergeStrategy)
-                                          .withSplitStrategy(splitStrategy)
-                                          .split(ivB.getTo())
-                                          .forEach(resultModifier::overwrite));
-                        }));
+    timeline.forEach(
+        ivA ->
+            timelineB.forEach(
+                ivB -> {
+                  result
+                      .find()
+                      .findContaining(ivB.getFrom())
+                      .ifPresent(
+                          iv ->
+                              iv.combine()
+                                  .withMergeStrategy(mergeStrategy)
+                                  .withSplitStrategy(splitStrategy)
+                                  .split(ivB.getFrom())
+                                  .forEach(resultModifier::overwrite));
+                  result
+                      .find()
+                      .findContaining(ivB.getTo())
+                      .ifPresent(
+                          iv ->
+                              iv.combine()
+                                  .withMergeStrategy(mergeStrategy)
+                                  .withSplitStrategy(splitStrategy)
+                                  .split(ivB.getTo())
+                                  .forEach(resultModifier::overwrite));
+                }));
 
     return result;
   }
@@ -150,11 +140,11 @@ public class ComplexTimelineJoinOperation<T>
   public ComplexTimeline<T> gaps() {
     var result = new ComplexTimeline<T>();
 
-    if (timeline.getIntervals().isEmpty()) {
+    if (timeline.isEmpty()) {
       return result;
     }
 
-    var it = timeline.getIntervals().iterator();
+    var it = timeline.iterator();
     var prev = it.next();
     while (it.hasNext()) {
       var current = it.next();

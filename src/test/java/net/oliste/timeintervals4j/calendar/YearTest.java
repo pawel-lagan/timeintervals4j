@@ -40,6 +40,6 @@ class YearTest {
   void getMonths() {
     var day = Year.of(fixture.getNowUtc(), props);
     var result = day.getMonths();
-    assertThat(result).hasSize(12).containsSequence(fixture.getAllMonthsOfCurrentYear(props));
+    assertThat(result).hasSize(12).containsSequence(fixture.getAllMonths(props));
   }
 }

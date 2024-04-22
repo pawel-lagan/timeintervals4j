@@ -346,7 +346,7 @@ class TimeIntervalTest {
   }
 
   @Test
-  void intervalAShouldBeBeforeIntervalB() {
+  void intervalAshouldBeBeforeIntervalB() {
     var intervalA = fixture.createInterval(IntervalOffset._2, IntervalOffset._4, props);
     var intervalB = fixture.createInterval(IntervalOffset._4, IntervalOffset._5, props);
 
@@ -357,7 +357,7 @@ class TimeIntervalTest {
   }
 
   @Test
-  void intervalAShouldNotBeBeforeIntervalB() {
+  void intervalAshouldNotBeBeforeIntervalB() {
     var intervalA = fixture.createInterval(IntervalOffset._3, IntervalOffset._5, props);
     var intervalB = fixture.createInterval(IntervalOffset._4, IntervalOffset._5, props);
 
@@ -368,7 +368,7 @@ class TimeIntervalTest {
   }
 
   @Test
-  void intervalAShouldBeAfterIntervalB() {
+  void intervalAshouldBeAfterIntervalB() {
     var intervalA = fixture.createInterval(IntervalOffset._4, IntervalOffset._5, props);
     var intervalB = fixture.createInterval(IntervalOffset._2, IntervalOffset._4, props);
 
@@ -379,7 +379,7 @@ class TimeIntervalTest {
   }
 
   @Test
-  void intervalAShouldNotBeAfterIntervalB() {
+  void intervalAshouldNotBeAfterIntervalB() {
     var intervalA = fixture.createInterval(IntervalOffset._4, IntervalOffset._5, props);
     var intervalB = fixture.createInterval(IntervalOffset._4, IntervalOffset._7, props);
 

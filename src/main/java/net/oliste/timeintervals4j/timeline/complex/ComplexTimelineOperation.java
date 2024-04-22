@@ -3,11 +3,15 @@ package net.oliste.timeintervals4j.timeline.complex;
 import java.time.ZonedDateTime;
 import java.util.function.BinaryOperator;
 import java.util.function.UnaryOperator;
-import java.util.stream.Collectors;
 import net.oliste.timeintervals4j.interval.SingleTimeInterval;
-import net.oliste.timeintervals4j.interval.TimeIntervalException;
 import net.oliste.timeintervals4j.timeline.TimelineOperation;
 
+/**
+ * Represents an object implementing all modify methods.
+ *
+ * @author Paweł Łagan
+ * @param <T> time interval properties type
+ */
 public class ComplexTimelineOperation<T>
     implements TimelineOperation<T, SingleTimeInterval<T>, ComplexTimeline<T>> {
 
@@ -15,7 +19,7 @@ public class ComplexTimelineOperation<T>
   private BinaryOperator<T> mergeStrategy = (propertiesA, propertiesB) -> propertiesA;
   private UnaryOperator<T> splitStrategy = propertiesA -> propertiesA;
 
-  public ComplexTimelineOperation(ComplexTimeline<T> timeline) {
+  ComplexTimelineOperation(ComplexTimeline<T> timeline) {
     this.timeline = timeline;
   }
 
@@ -33,18 +37,7 @@ public class ComplexTimelineOperation<T>
 
   @Override
   public void insert(SingleTimeInterval<T> interval) {
-    var overlappingIntervals = timeline.find().findOverlapping(interval);
-    if (overlappingIntervals.isEmpty()) {
-      timeline.addInOrder(interval);
-    } else {
-      throw new TimeIntervalException(
-          String.format(
-              "Overlapping interval found for %s => [%s]",
-              interval,
-              overlappingIntervals.stream()
-                  .map(SingleTimeInterval::toString)
-                  .collect(Collectors.joining(", "))));
-    }
+    timeline.addInOrder(interval);
   }
 
   @Override

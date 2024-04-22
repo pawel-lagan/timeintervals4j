@@ -5,41 +5,49 @@ import java.util.List;
 import java.util.Optional;
 import net.oliste.timeintervals4j.interval.SingleTimeInterval;
 import net.oliste.timeintervals4j.timeline.TimelineSearch;
+import net.oliste.timeintervals4j.timeline.complex.tree.BtpTreeNode;
 
+/**
+ * Represents an object implementing all search methods for {@link ComplexTimeline}.
+ *
+ * @author Paweł Łagan
+ * @param <T> time interval properties type
+ */
 public class ComplexTimelineSearch<T>
     implements TimelineSearch<T, SingleTimeInterval<T>, ComplexTimeline<T>> {
 
   private final ComplexTimeline<T> timeline;
 
-  public ComplexTimelineSearch(ComplexTimeline<T> timeline) {
+  ComplexTimelineSearch(ComplexTimeline<T> timeline) {
     this.timeline = timeline;
   }
 
   @Override
   public List<SingleTimeInterval<T>> findOverlapping(SingleTimeInterval<T> interval) {
-    return timeline.getIntervals().stream().filter(interval::overlaps).toList();
+    return timeline.search(interval, iv -> iv.overlaps(interval)).stream()
+        .map(BtpTreeNode::getInterval)
+        .toList();
   }
 
   @Override
   public List<SingleTimeInterval<T>> findContaining(SingleTimeInterval<T> interval) {
-    return timeline.getIntervals().stream().filter(interval::contains).toList();
+    return timeline.search(interval, iv -> interval.contains(iv)).stream()
+        .map(BtpTreeNode::getInterval)
+        .toList();
   }
 
   @Override
   public Optional<SingleTimeInterval<T>> findContaining(ZonedDateTime timestamp) {
-    return timeline.getIntervals().stream().filter(iv -> iv.contains(timestamp)).findFirst();
+    return timeline.search(timestamp, iv -> iv.contains(timestamp)).stream()
+        .map(BtpTreeNode::getInterval)
+        .findFirst();
   }
 
   @Override
   public Optional<SingleTimeInterval<T>> findLeftNearest(SingleTimeInterval<T> interval) {
-    var intervals = timeline.getIntervals();
-    var it = intervals.listIterator();
-    if (intervals.isEmpty()) {
+    var it = timeline.iterator();
+    if (timeline.isEmpty()) {
       return Optional.empty();
-    }
-
-    if (intervals.getFirst().isAfter(interval)) {
-      return Optional.of(intervals.getFirst());
     }
 
     SingleTimeInterval<T> prev = null;
@@ -55,14 +63,9 @@ public class ComplexTimelineSearch<T>
 
   @Override
   public Optional<SingleTimeInterval<T>> findRightNearest(SingleTimeInterval<T> interval) {
-    var intervals = timeline.getIntervals();
-    var it = intervals.listIterator();
-    if (intervals.isEmpty()) {
+    var it = timeline.iterator();
+    if (timeline.isEmpty()) {
       return Optional.empty();
-    }
-
-    if (intervals.getLast().isBefore(interval)) {
-      return Optional.of(intervals.getLast());
     }
 
     while (it.hasNext()) {
